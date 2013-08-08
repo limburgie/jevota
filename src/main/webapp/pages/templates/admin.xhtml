@@ -1,0 +1,52 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="main.xhtml">
+		<ui:define name="title"><ui:insert name="subtitle"/> | Controlepaneel | #{msg.site_title}</ui:define>
+		<ui:define name="body">
+			<h:panelGroup rendered="#{accountBean.powerUser}">
+				<ul id="subnav">
+					<h:panelGroup rendered="#{accountBean.newsMgr}">
+						<li><h:link value="Nieuws" outcome="/pages/admin/news"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.playerMgr}">
+						<li><h:link value="Spelers" outcome="/pages/admin/players"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.clubMgr}">
+						<li><h:link value="Clubs" outcome="/pages/admin/clubs"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.gameMgr}">
+						<li><h:link value="Wedstrijden" outcome="/pages/admin/games"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.lineupMgr}">
+						<li><h:link value="Opstellingen" outcome="/pages/admin/lineup"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.pictureMgr}">
+						<li><h:link value="Foto-albums" outcome="/pages/admin/albums"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.admin}">
+						<li><h:link value="Rollen" outcome="/pages/admin/roles"/></li>
+					</h:panelGroup>
+				</ul>
+				<div class="col admin">
+					<div class="block">
+						<h2><ui:insert name="subtitle"/></h2>
+						<ui:insert name="main"/>
+					</div>
+				</div>
+				<script type="text/javascript">
+					jQuery(function($) {
+						var currentPath = window.location.pathname;
+						$("#subnav a").each(function () {
+							if($(this).attr("href") == currentPath) {
+								$(this).addClass("selected");
+							}
+						});
+					});
+				</script>
+			</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+</f:view>

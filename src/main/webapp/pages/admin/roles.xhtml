@@ -1,0 +1,26 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer rollen</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p:dataTable value="#{roleBean.roles}" var="role">
+					<p:column headerText="Rol">
+						#{role.name.name}
+					</p:column>
+					<p:column headerText="Gebruikers met deze rol">
+						<ui:repeat value="#{role.players}" var="player">
+							#{player.fullName}<br/>
+						</ui:repeat>
+					</p:column>
+					<p:column>
+						<p:menuButton value="Opties">
+							<p:menuitem value="Beheren" outcome="/pages/admin/edit-role.xhtml?roleId=#{role.id}"/>
+						</p:menuButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer clubs</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p>
+					<p:button value="Nieuwe club" outcome="/pages/admin/edit-club.xhtml" />
+				</p>
+				<p:dataTable value="#{clubBean.clubs}" var="club" rows="15" paginator="true" filteredValue="#{clubBean.filteredClubs}">
+					<p:column headerText="Nummer" sortBy="#{club.number}">
+						LK#{club.number}
+					</p:column>
+					<p:column headerText="Naam" sortBy="#{club.shortName}" filterBy="#{club.shortName}" filterMatchMode="contains">
+						#{club.shortName}
+					</p:column>
+					<p:column headerText="Volledige naam" sortBy="#{club.name}" filterBy="#{club.name}" filterMatchMode="contains">
+						#{club.name}
+					</p:column>
+					<p:column headerText="Adres">
+						<h:outputText value="#{club.address.fullAddress}" escape="false"/>
+					</p:column>
+					<p:column headerText="Telefoon">
+						#{club.phone}
+					</p:column>
+					<p:column>
+						<p:menuButton value="Opties">
+							<p:menuitem value="Aanpassen" outcome="/pages/admin/edit-club">
+								<f:param name="clubId" value="#{club.id}"/>
+								<f:param name="redirect" value="/pages/admin/clubs.xhtml?faces-redirect=true"/>
+							</p:menuitem>
+						</p:menuButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

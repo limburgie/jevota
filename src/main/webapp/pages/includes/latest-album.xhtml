@@ -1,0 +1,15 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<div class="block">
+	<h2>Fotogalerij</h2>
+		<p>
+			<h:link outcome="/pages/album" rendered="#{!empty photoBean.latestAlbum}">
+				<h:graphicImage url="#{photoBean.latestAlbum.thumbnailUrl}"/>
+				<f:param name="albumId" value="#{photoBean.latestAlbum.id}"/>
+			</h:link>
+		</p>
+	</div>
+</f:view>

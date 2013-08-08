@@ -1,0 +1,69 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			<h:outputText rendered="#{gameBean.newGame}" value="Nieuwe wedstrijd"/>
+			<h:outputText rendered="#{!gameBean.newGame}" value="Wedstrijd aanpassen"/>
+		</ui:define>
+		<ui:define name="main">
+			<p:messages id="messages"/>
+			<h:form>
+				<p>
+					<p:outputLabel for="date" value="Datum"/><br/>
+					<p:calendar id="date" value="#{gameBean.game.date}" pattern="#{msg.date_format}" required="true" 
+						stepMinute="30" timeZone="#{msg.timezone}" navigator="true" size="10"/>
+				</p>
+				<p>
+					<p:outputLabel for="time" value="Tijd"/><br/>
+					<p:inputMask id="time" value="#{gameBean.time}" mask="99:99" required="true" size="5">
+						<f:convertDateTime pattern="HH:mm" timeZone="#{msg.timezone}"/>
+					</p:inputMask>
+				</p>
+				<p>
+					<p:outputLabel for="week" value="Week"/><br/>
+					<h:selectOneMenu id="week" value="#{gameBean.game.weekNo}" required="true">
+						<f:selectItems value="#{constantsBean.seasonWeekNos}"/>
+					</h:selectOneMenu>
+				</p>
+				<p>
+					<h:selectBooleanCheckbox id="recreation" value="#{gameBean.recreation}"/>
+					<p:outputLabel for="recreation" value="Recreatie"/>
+				</p>
+				<p>
+					<p:outputLabel for="homeTeam" value="Thuisploeg"/><br/>
+					<h:selectOneMenu id="homeClub" value="#{gameBean.game.homeTeam.club}" required="true" label="Thuisclub">
+						<f:selectItems value="#{clubBean.clubs}" var="club" itemLabel="#{club.shortName}" itemValue="#{club}"/>
+						<f:converter binding="#{clubBean}"/>
+					</h:selectOneMenu>
+					<h:selectOneMenu id="homeTeam" value="#{gameBean.game.homeTeam.teamNo}" required="true" label="Thuisploeg">
+						<f:selectItems value="#{constantsBean.teamNos}"/>
+					</h:selectOneMenu>
+				</p>
+				<p>
+					<p:outputLabel for="outTeam" value="Uitploeg"/><br/>
+					<h:selectOneMenu id="outClub" value="#{gameBean.game.outTeam.club}" required="true" label="Uitclub">
+						<f:selectItems value="#{clubBean.clubs}" var="club" itemLabel="#{club.shortName}" itemValue="#{club}"/>
+						<f:converter binding="#{clubBean}"/>
+					</h:selectOneMenu>
+					<h:selectOneMenu id="outTeam" value="#{gameBean.game.outTeam.teamNo}" required="true" label="Uitploeg">
+						<f:selectItems value="#{constantsBean.teamNos}"/>
+					</h:selectOneMenu>
+				</p>
+				<p>
+					<p:outputLabel for="stand" value="Eindstand"/><br/>
+					<p:inputText id="stand" value="#{gameBean.game.homeTeamPts}" size="2"/> - <p:inputText value="#{gameBean.game.outTeamPts}" size="2"/>
+				</p>
+				<p>
+					<h:selectBooleanCheckbox id="forfait" value="#{gameBean.game.forfait}"/>
+					<p:outputLabel for="forfait" value="Forfait"/>
+				</p>
+				<p>
+					<p:commandButton value="Opslaan" action="#{gameBean.save}" ajax="false" update="messages"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,95 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Home</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h2>Laatste nieuws</h2>
+				<h:form>
+					<p:dataTable id="news" value="#{newsBean.latestItems}" var="item" rows="5"
+						selection="#{newsBean.item}" selectionMode="single" rowKey="#{item.id}">
+						<p:ajax event="rowSelect" listener="#{newsBean.toItem}"/>
+						<p:column headerText="Datum">
+							<h:outputText value="#{item.createDate}">
+								<f:convertDateTime pattern="#{msg.date_format}" timeZone="#{msg.timezone}"/>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Onderwerp">
+							#{item.title}
+						</p:column>
+						<p:column headerText="Auteur">
+							<h:outputText value="#{item.initialAuthor.fullName}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+			<div class="block">
+				<h:form id="gamesForm">
+					<h:panelGroup id="filter" layout="block">
+						<div class="float-left">
+							<h2>#{gameFilterBean.activeFilter.filter.label}</h2>
+						</div>
+						<div class="float-right">
+							<div class="filter">
+								<ui:include src="includes/filter/calendarWeekFilter.xhtml"/>
+								<h:outputText value=" of "/>
+								<ui:include src="includes/filter/seasonWeekFilter.xhtml"/>
+							</div>
+						</div>
+					</h:panelGroup>
+					<div class="clear"></div>
+					<p:dataTable id="games" value="#{gameFilterBean.games}" var="game" emptyMessage="Er zijn deze week geen wedstrijden"
+						selection="#{gameBean.game}" selectionMode="single" rowKey="#{game.id}">
+						<p:ajax event="rowSelect" listener="#{gameBean.toGame}"/>
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column colspan="3" headerText="Datum" sortBy="#{game.date}"/>
+								<p:column headerText="Thuis"/>
+								<p:column colspan="3" headerText="Score"/>
+								<p:column headerText="Uit"/>
+							</p:row>
+						</p:columnGroup>
+						<p:column>
+							<h:outputText value="#{game.date}">
+								<f:convertDateTime pattern="E" timeZone="#{msg.timezone}" locale="#{constantsBean.locale}"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.date}">
+								<f:convertDateTime pattern="dd-MM" timeZone="#{msg.timezone}"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.date}">
+								<f:convertDateTime pattern="HH:mm" timeZone="#{msg.timezone}"/>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.homeTeam.name}" rendered="#{game.homeTeam.lanaken}" styleClass="bold"/>
+							<h:outputText value="#{game.homeTeam.name}" rendered="#{!game.homeTeam.lanaken}"/>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.homeTeamPtsLabel}" rendered="#{game.inPast}"/>
+						</p:column>
+						<p:column>
+							-
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.outTeamPtsLabel}" rendered="#{game.inPast}"/>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{game.outTeam.name}" rendered="#{game.outTeam.lanaken}" styleClass="bold"/>
+							<h:outputText value="#{game.outTeam.name}" rendered="#{!game.outTeam.lanaken}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/latest-album.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

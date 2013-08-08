@@ -1,0 +1,78 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			Ploegopstellingen
+		</ui:define>
+		<ui:define name="main">
+			<p:messages autoUpdate="true"/>
+			<h:form id="form">
+				<p:panelGrid id="filter" columns="3" styleClass="filter">
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterByCalendarWeek" value="Kalenderweek"/><br/>
+						<ui:include src="../includes/filter/calendarWeekFilter.xhtml"/>
+					</p:outputPanel>
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterBySeasonWeek" value="Speelweek"/><br/>
+						<ui:include src="../includes/filter/seasonWeekFilter.xhtml"/>
+					</p:outputPanel>
+					<p:selectOneButton value="#{lineupBean.recreation}">
+						<f:selectItem itemLabel="Competitie" itemValue="#{false}"/>
+						<f:selectItem itemLabel="Recreatie" itemValue="#{true}"/>
+						<p:ajax listener="#{lineupBean.clear}" update="@form"/>
+					</p:selectOneButton>
+				</p:panelGrid>
+			
+				<h:panelGrid id="games" columns="2" styleClass="x-columns" rendered="#{!empty gameFilterBean.activeFilter.filter}">
+					<p:dataTable id="players" value="#{lineupBean.players}" var="player" styleClass="draggable" filteredValue="#{lineupBean.filteredPlayers}" widgetVar="playerList">
+						<p:column headerText="Spelers" filterBy="#{player.fullName}" filterMatchMode="contains" >
+							<h:outputText styleClass="playerInfo" id="player" value="#{player.ranking} - #{player.shortName}" />
+							<p:draggable for="player" revert="true" stack=".playerInfo" scope="dropZone"/>
+						</p:column>
+					</p:dataTable>
+				
+					<p:dataGrid value="#{lineupBean.teams}" var="team" columns="3" binding="#{teamGrid}">
+						<p:column style="width: 33%">
+							<ui:param name="lineup" value="#{lineupBean.getLineup(team.id)}"/>
+							<p:panel header="#{team.teamName}-ploeg">
+								<p:droppable rendered="#{!empty lineup}" widgetVar="#{team.id}" activeStyleClass="dropTarget" scope="dropZone" datasource=":form:players">
+									<p:ajax listener="#{lineupBean.onPlayerDrop}" update="@form" onstart="playerList.clearFilters()"/>
+								</p:droppable>
+								<h:panelGroup rendered="#{!empty lineup}">
+									<h:panelGrid columns="1" style="margin: 0">
+										<h:outputText value="#{lineup.game.getOpponentLabel(team)}"/>
+										<h:outputText value="#{lineup.game.date}">
+											<f:convertDateTime pattern="E dd/MM 'om' HH'u'mm" timeZone="#{msg.timezone}" locale="#{constantsBean.locale}"/>
+										</h:outputText>
+										<h:outputText value="Week #{lineup.game.weekNo}"/>
+									</h:panelGrid>
+									<p:dataTable id="lineupPlayers" rendered="#{!empty lineup.playerList}" value="#{lineup.playerList}" var="player" styleClass="noHeader grayTable">
+										<p:column>
+											<h:outputText value="#{player.ranking} - #{player.shortName}"/>
+										</p:column>
+										<p:column>
+											<p:commandLink value="X" action="#{lineupBean.removePlayerFromLineup(lineup.id)}" update="@form" onsuccess="playerList.clearFilters()">
+												<f:setPropertyActionListener target="#{lineupBean.playerId}" value="#{player.id}"/>
+											</p:commandLink>
+										</p:column>
+									</p:dataTable>
+									<h:panelGroup rendered="#{lineup.complete}">
+										<p>
+											<p:commandButton value="Mail sturen" action="#{lineupBean.notifyPlayers(lineup.id)}"/>
+										</p>
+									</h:panelGroup>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{empty lineup}">
+									<p><h:outputText value="Vrij"/></p>
+								</h:panelGroup>
+							</p:panel>
+						</p:column>
+					</p:dataGrid>
+				</h:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

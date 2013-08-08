@@ -1,0 +1,47 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer spelers</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p:messages autoUpdate="true"/>
+				<p>
+					<p:button value="Nieuwe speler" outcome="/pages/admin/edit-player.xhtml">
+						<f:param name="redirect" value="/pages/admin/players.xhtml?faces-redirect=true"/>
+					</p:button>
+					<p:commandButton value="Nieuw wachtwoord genereren voor alle spelers zonder wachtwoord" action="#{playerBean.sendNewPasswordAll}" rendered="#{accountBean.admin}"/>
+				</p>
+				<p:dataTable value="#{playerBean.allPlayers}" var="player" rows="15" paginator="true" filteredValue="#{playerBean.filteredPlayers}">
+					<p:column headerText="Lidnr." sortBy="#{player.memberNo}" filterBy="#{player.memberNo}" filterMatchMode="exact">
+						#{player.memberNo}
+					</p:column>
+					<p:column headerText="Voornaam" sortBy="#{player.firstName}" filterBy="#{player.firstName}" filterMatchMode="contains">
+						#{player.firstName}
+					</p:column>
+					<p:column headerText="Achternaam" sortBy="#{player.lastName}" filterBy="#{player.lastName}" filterMatchMode="contains">
+						#{player.lastName}
+					</p:column>
+					<p:column headerText="Rank." sortBy="#{player.ranking}" filterBy="#{player.ranking}" filterMatchMode="exact" filterOptions="#{constantsBean.rankingItems}">
+						#{player.ranking}
+					</p:column>
+					<p:column headerText="Rec." sortBy="#{player.recreation}" filterBy="#{player.recreation}" filterMatchMode="exact" filterOptions="#{constantsBean.yesNoDropdown}">
+						#{player.recreationChar}
+					</p:column>
+					<p:column headerText="Act." sortBy="#{player.active}" filterBy="#{player.active}" filterMatchMode="exact" filterOptions="#{constantsBean.yesNoDropdown}">
+						#{player.activeChar}
+					</p:column>
+					<p:column>
+						<p:menuButton value="Opties">
+							<p:menuitem value="Aanpassen" outcome="/pages/admin/edit-player.xhtml">
+								<f:param name="playerId" value="#{player.id}"/>
+							</p:menuitem>
+						</p:menuButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

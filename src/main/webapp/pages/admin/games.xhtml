@@ -1,0 +1,61 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer wedstrijden</ui:define>
+		<ui:define name="main">
+			<h:form id="gamesForm">
+				<p:panelGrid id="filter" columns="4" styleClass="filter">
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterBySeason" value="Seizoen"/><br/>
+						<ui:include src="../includes/filter/seasonFilter.xhtml"/>
+					</p:outputPanel>
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterByTeam" value="Ploeg"/><br/>
+						<ui:include src="../includes/filter/teamFilter.xhtml"/>
+					</p:outputPanel>
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterByCalendarWeek" value="Kalenderweek"/><br/>
+						<ui:include src="../includes/filter/calendarWeekFilter.xhtml"/>
+					</p:outputPanel>
+					<p:outputPanel layout="block">
+						<p:outputLabel for="filterBySeasonWeek" value="Speelweek"/><br/>
+						<ui:include src="../includes/filter/seasonWeekFilter.xhtml"/>
+					</p:outputPanel>
+				</p:panelGrid>
+				<p>
+					<p:button value="Nieuwe wedstrijd" outcome="/pages/admin/edit-game.xhtml">
+						<f:param name="redirect" value="/pages/admin/games.xhtml?faces-redirect=true"/>
+					</p:button>
+				</p>
+				<p:dataTable id="games" value="#{gameFilterBean.games}" var="game" rows="15" paginator="true">
+					<p:column headerText="Datum" sortBy="#{game.date}">
+						<h:outputText value="#{game.date}">
+							<f:convertDateTime pattern="#{msg.date_time_format}" timeZone="#{msg.timezone}" locale="nl"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Thuisploeg" styleClass="#{game.homeTeam.lanaken ? 'bold' : ''}">
+						#{game.homeTeam.name}
+					</p:column>
+					<p:column headerText="Score">
+						#{game.score}
+					</p:column>
+					<p:column headerText="Uitploeg" styleClass="#{game.outTeam.lanaken ? 'bold' : ''}">
+						#{game.outTeam.name}
+					</p:column>
+					<p:column>
+						<p:menuButton value="Opties">
+							<p:menuitem value="Aanpassen" outcome="/pages/admin/edit-game">
+								<f:param name="gameId" value="#{game.id}"/>
+								<f:param name="redirect" value="/pages/admin/games.xhtml?faces-redirect=true"/>
+							</p:menuitem>
+							<p:menuitem value="Verwijderen" action="#{gameBean.remove(game.id)}" update="games"/>
+						</p:menuButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

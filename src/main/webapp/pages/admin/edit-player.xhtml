@@ -1,0 +1,90 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			<h:outputText rendered="#{playerBean.newPlayer}" value="Nieuwe speler"/>
+			<h:outputText rendered="#{!playerBean.newPlayer}" value="#{playerBean.player.fullName}"/>
+		</ui:define>
+		<ui:define name="main">
+			<p:messages autoUpdate="true"/>
+			<p:tabView>
+				<p:tab title="Profiel">
+					<h:form>
+						<p:focus for="firstName"/>
+						<p>
+							<p:outputLabel for="firstName" value="Voornaam"/><br/>
+							<p:inputText id="firstName" value="#{playerBean.player.firstName}" required="true" size="15"/>
+						</p>
+						<p>
+							<p:outputLabel for="lastName" value="Achternaam"/><br/>
+							<p:inputText id="lastName" value="#{playerBean.player.lastName}" required="true" size="20"/>
+						</p>
+						<p>
+							<p:outputLabel for="emailAddress" value="E-mailadres"/><br/>
+							<p:inputText id="emailAddress" value="#{playerBean.player.emailAddress}" size="20"/>
+						</p>
+						<p>
+							<p:outputLabel for="memberNo" value="Lidnummer (vb. 506678)"/><br/>
+							<p:inputText id="memberNo" value="#{playerBean.player.memberNo}" size="6"/>
+						</p>
+						<p>
+							<p:outputLabel for="ranking" value="Klassement"/><br/>
+							<h:selectOneMenu id="ranking" value="#{playerBean.player.ranking}" required="true">
+								<f:selectItem itemValue="" itemLabel=""/>
+								<f:selectItems value="#{constantsBean.rankingItems}"/>
+							</h:selectOneMenu>
+						</p>
+						<p>
+							<h:selectBooleanCheckbox id="male" value="#{playerBean.player.male}"/>
+							<p:outputLabel for="male" value="Sterktelijst heren"/>
+						</p>
+						<p>
+							<h:selectBooleanCheckbox id="active" value="#{playerBean.player.active}"/>
+							<p:outputLabel for="active" value="Actief?"/>
+						</p>
+						<p>
+							<h:selectBooleanCheckbox id="recreation" value="#{playerBean.player.recreation}"/>
+							<p:outputLabel for="recreation" value="Recreatie?"/>
+						</p>
+						<p>
+							<p:commandButton value="Opslaan" action="#{playerBean.save}"/>
+							<p:commandButton value="Genereer nieuw wachtwoord" action="#{playerBean.sendNewPassword}" rendered="#{accountBean.playerMgr and !playerBean.newPlayer}"/>
+						</p>
+					</h:form>
+				</p:tab>
+				<p:tab title="Contact">
+					<h:form>
+						<p>
+							<p:outputLabel for="street" value="Straat (bv. Daalstraat 24)"/><br/>
+							<p:inputText id="street" value="#{playerBean.player.address.street}" size="30"/>
+						</p>
+						<p>
+							<p:outputLabel for="postalCode" value="Postcode (bv. 3620)"/><br/>
+							<p:inputText id="postalCode" value="#{playerBean.player.address.postalCode}" size="5"/>
+						</p>
+						<p>
+							<p:outputLabel for="place" value="Plaats (bv. Lanaken)"/><br/>
+							<p:inputText id="place" value="#{playerBean.player.address.place}" size="20"/>
+						</p>
+						<p>
+							<p:outputLabel for="country" value="Land"/><br/>
+							<p:inputText id="country" value="#{playerBean.player.address.country}" size="10"/>
+						</p>
+						<p>
+							<p:outputLabel for="phone" value="Telefoonnummer (een per regel, bv. 089/12.34.56)"/><br/>
+							<p:inputTextarea id="phone" value="#{playerBean.player.phoneNumbers}">
+								<f:converter binding="#{phoneNumberListConverter}"/>
+							</p:inputTextarea>
+						</p>
+						<p>
+							<p:commandButton value="Opslaan" action="#{playerBean.save}" update="@form"/>
+						</p>
+					</h:form>
+				</p:tab>
+			</p:tabView>
+		</ui:define>
+	</ui:composition>
+</f:view>
