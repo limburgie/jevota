@@ -6,7 +6,7 @@
 	<h:selectOneMenu id="filterBySeasonWeek" value="#{seasonWeekFilterBean.filter}">
 		<f:selectItem itemLabel="" itemValue="#{null}"/>
 		<f:selectItems value="#{seasonWeekFilterBean.items}" var="week" itemValue="#{week}" itemLabel="#{week.label}"/>
-		<p:ajax listener="#{gameFilterBean.filterBySeasonWeek}" update="games,filter"/>
+		<p:ajax listener="#{gameFilterBean.filterBySeasonWeek}" update="games,filter" process="filter"/>
 		<f:converter binding="#{seasonWeekFilterBean}"/>
 	</h:selectOneMenu>
 	

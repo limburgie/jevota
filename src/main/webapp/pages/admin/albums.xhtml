@@ -18,7 +18,7 @@
 				<p:dataTable id="albums" value="#{photoBean.albums}" var="album">
 					<p:column headerText="Datum" sortBy="#{album.date}">
 						<h:outputText value="#{album.date}">
-							<f:convertDateTime pattern="dd-MM-yyy" timeZone="#{msg.timezone}"/>
+							<f:convertDateTime pattern="dd-MM-yyy"/>
 						</h:outputText>
 					</p:column>
 					<p:column headerText="Naam" sortBy="#{album.name}">

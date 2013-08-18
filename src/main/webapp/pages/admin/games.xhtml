@@ -7,6 +7,7 @@
 		<ui:define name="subtitle">Beheer wedstrijden</ui:define>
 		<ui:define name="main">
 			<h:form id="gamesForm">
+				<p:messages autoUpdate="true"/>
 				<p:panelGrid id="filter" columns="4" styleClass="filter">
 					<p:outputPanel layout="block">
 						<p:outputLabel for="filterBySeason" value="Seizoen"/><br/>
@@ -29,11 +30,12 @@
 					<p:button value="Nieuwe wedstrijd" outcome="/pages/admin/edit-game.xhtml">
 						<f:param name="redirect" value="/pages/admin/games.xhtml?faces-redirect=true"/>
 					</p:button>
+					<p:commandButton value="Importeer uit VTTL" action="#{vttlImportBean.importGames}" update="@form"/>
 				</p>
 				<p:dataTable id="games" value="#{gameFilterBean.games}" var="game" rows="15" paginator="true">
 					<p:column headerText="Datum" sortBy="#{game.date}">
 						<h:outputText value="#{game.date}">
-							<f:convertDateTime pattern="#{msg.date_time_format}" timeZone="#{msg.timezone}" locale="nl"/>
+							<f:convertDateTime pattern="#{msg.date_time_format}" locale="nl"/>
 						</h:outputText>
 					</p:column>
 					<p:column headerText="Thuisploeg" styleClass="#{game.homeTeam.lanaken ? 'bold' : ''}">

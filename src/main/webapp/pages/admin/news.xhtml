@@ -16,14 +16,14 @@
 					</p:column>
 					<p:column headerText="Geschreven" sortBy="#{item.createDate}">
 						<h:outputText value="#{item.createDate}">
-							<f:convertDateTime pattern="#{msg.date_format}" timeZone="#{msg.timezone}" />
+							<f:convertDateTime pattern="#{msg.date_format}"/>
 						</h:outputText>
 						<br/>
 						<h:outputText value="#{item.initialAuthor.fullName}"/>
 					</p:column>
 					<p:column headerText="Laatst gewijzigd" sortBy="#{item.modifiedDate}">
 						<h:outputText value="#{item.modifiedDate}">
-							<f:convertDateTime pattern="#{msg.date_format}" timeZone="#{msg.timezone}" />
+							<f:convertDateTime pattern="#{msg.date_format}"/>
 						</h:outputText>
 						<br/>
 						<h:outputText value="#{item.lastAuthor.fullName}"/>

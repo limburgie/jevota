@@ -14,12 +14,12 @@
 				<p>
 					<p:outputLabel for="date" value="Datum"/><br/>
 					<p:calendar id="date" value="#{gameBean.game.date}" pattern="#{msg.date_format}" required="true" 
-						stepMinute="30" timeZone="#{msg.timezone}" navigator="true" size="10"/>
+						stepMinute="30" navigator="true" size="10"/>
 				</p>
 				<p>
 					<p:outputLabel for="time" value="Tijd"/><br/>
 					<p:inputMask id="time" value="#{gameBean.time}" mask="99:99" required="true" size="5">
-						<f:convertDateTime pattern="HH:mm" timeZone="#{msg.timezone}"/>
+						<f:convertDateTime pattern="HH:mm"/>
 					</p:inputMask>
 				</p>
 				<p>

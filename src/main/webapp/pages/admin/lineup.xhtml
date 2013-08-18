@@ -45,7 +45,7 @@
 									<h:panelGrid columns="1" style="margin: 0">
 										<h:outputText value="#{lineup.game.getOpponentLabel(team)}"/>
 										<h:outputText value="#{lineup.game.date}">
-											<f:convertDateTime pattern="E dd/MM 'om' HH'u'mm" timeZone="#{msg.timezone}" locale="#{constantsBean.locale}"/>
+											<f:convertDateTime pattern="E dd/MM 'om' HH'u'mm" locale="#{constantsBean.locale}"/>
 										</h:outputText>
 										<h:outputText value="Week #{lineup.game.weekNo}"/>
 									</h:panelGrid>

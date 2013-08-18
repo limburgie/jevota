@@ -14,7 +14,7 @@
 						<p:ajax event="rowSelect" listener="#{newsBean.toItem}"/>
 						<p:column headerText="Datum">
 							<h:outputText value="#{item.createDate}">
-								<f:convertDateTime pattern="#{msg.date_format}" timeZone="#{msg.timezone}"/>
+								<f:convertDateTime pattern="#{msg.date_format}"/>
 							</h:outputText>
 						</p:column>
 						<p:column headerText="Onderwerp">
@@ -54,17 +54,17 @@
 						</p:columnGroup>
 						<p:column>
 							<h:outputText value="#{game.date}">
-								<f:convertDateTime pattern="E" timeZone="#{msg.timezone}" locale="#{constantsBean.locale}"/>
+								<f:convertDateTime pattern="E" locale="#{constantsBean.locale}"/>
 							</h:outputText>
 						</p:column>
 						<p:column>
 							<h:outputText value="#{game.date}">
-								<f:convertDateTime pattern="dd-MM" timeZone="#{msg.timezone}"/>
+								<f:convertDateTime pattern="dd-MM"/>
 							</h:outputText>
 						</p:column>
 						<p:column>
 							<h:outputText value="#{game.date}">
-								<f:convertDateTime pattern="HH:mm" timeZone="#{msg.timezone}"/>
+								<f:convertDateTime pattern="HH:mm"/>
 							</h:outputText>
 						</p:column>
 						<p:column>

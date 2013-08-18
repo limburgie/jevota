@@ -22,9 +22,9 @@ public class ClubServiceImpl implements ClubService {
 	public PingpongClub getClub(Long id) {
 		return repository.findOne(id);
 	}
-	
+
 	public PingpongClub getJevotaClub() {
-		return repository.findByNumber(JEVOTA_NUMBER);
+		return getClubByNumber(JEVOTA_NUMBER);
 	}
 
 	public List<PingpongClub> getClubs() {
@@ -32,10 +32,28 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Transactional
-	public void saveClub(PingpongClub club) {
+	public PingpongClub saveClub(PingpongClub club) {
 		Address address = club.getAddress();
-		address.setPosition(geoService.getGeoPosition(address));
-		repository.save(club);
+		if (address != null) {
+			address.setPosition(geoService.getGeoPosition(address));
+		}
+		return repository.save(club);
 	}
-	
+
+	public PingpongClub getClubByNumber(String number) {
+		return repository.findByNumber(number);
+	}
+
+	public PingpongClub getOrCreateClub(String number, String name) {
+		PingpongClub club = getClubByNumber(number);
+		if (club == null) {
+			club = new PingpongClub();
+			club.setNumber(number);
+			club.setName(name);
+			club.setShortName(name);
+			club = saveClub(club);
+		}
+		return club;
+	}
+
 }

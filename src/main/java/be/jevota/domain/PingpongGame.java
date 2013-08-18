@@ -9,14 +9,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import be.jevota.domain.cal.SeasonYear;
+
 @Entity
-@Table(uniqueConstraints={
-	@UniqueConstraint(columnNames={"date", "homeTeam_id", "outTeam_id"})
-})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "date", "homeTeam_id", "outTeam_id" }) })
 public class PingpongGame {
 
-	@Id @GeneratedValue
-	private Long id;
+	@Id @GeneratedValue private Long id;
 
 	private Date date;
 	private int weekNo;
@@ -24,48 +23,52 @@ public class PingpongGame {
 	private int outTeamPts;
 	private boolean forfait;
 
-	@OneToOne
-	private PingpongTeam homeTeam;
+	private String vttlId;
 
-	@OneToOne
-	private PingpongTeam outTeam;
-	
+	@OneToOne private PingpongTeam homeTeam;
+
+	@OneToOne private PingpongTeam outTeam;
+
+	public SeasonYear getSeasonYear() {
+		return new SeasonYear(date);
+	}
+
 	public String getVersusString() {
 		return String.format("%s - %s", homeTeam.getName(), outTeam.getName());
 	}
-	
+
 	public String getScore() {
 		return String.format("%s - %s", getHomeTeamPtsLabel(), getOutTeamPtsLabel());
 	}
-	
+
 	public boolean isRecreation() {
 		return homeTeam.isRecreation();
 	}
-	
+
 	public boolean isHomeGame() {
 		return homeTeam.isLanaken();
 	}
-	
+
 	public PingpongTeam getOpponent(PingpongTeam team) {
 		return team.equals(homeTeam) ? outTeam : homeTeam;
 	}
-	
+
 	public String getOpponentLabel(PingpongTeam jevotaTeam) {
 		return (isHomeGame() ? "Thuis " : "Uit ") + getOpponent(jevotaTeam).getName();
 	}
-	
+
 	public String getHomeTeamPtsLabel() {
 		return getPointsLabel(homeTeamPts);
 	}
-	
+
 	public String getOutTeamPtsLabel() {
 		return getPointsLabel(outTeamPts);
 	}
-	
+
 	private String getPointsLabel(int points) {
 		return points == 0 && forfait ? "FF" : String.valueOf(points);
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -81,7 +84,7 @@ public class PingpongGame {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	public int getWeekNo() {
 		return weekNo;
 	}
@@ -134,6 +137,14 @@ public class PingpongGame {
 		this.forfait = forfait;
 	}
 
+	public String getVttlId() {
+		return vttlId;
+	}
+
+	public void setVttlId(String vttlId) {
+		this.vttlId = vttlId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -160,13 +171,13 @@ public class PingpongGame {
 	}
 
 	public PingpongTeam getHighestLanakenTeam() {
-		if(homeTeam.isLanaken() && !outTeam.isLanaken()) {
+		if (homeTeam.isLanaken() && !outTeam.isLanaken()) {
 			return homeTeam;
-		} else if(outTeam.isLanaken()) {
+		} else if (outTeam.isLanaken()) {
 			return outTeam;
 		}
 		// Both teams are Lanaken
-		if(homeTeam.getTeamNo().compareTo(outTeam.getTeamNo()) > 0) {
+		if (homeTeam.getTeamNo().compareTo(outTeam.getTeamNo()) > 0) {
 			return outTeam;
 		}
 		return homeTeam;

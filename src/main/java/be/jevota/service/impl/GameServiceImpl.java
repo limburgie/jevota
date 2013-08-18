@@ -25,11 +25,11 @@ import be.jevota.service.comparator.GameByTeamComparator;
 public class GameServiceImpl implements GameService {
 
 	private static final Sort ORDER_BY_DATE_DESC = new Sort(new Sort.Order(Direction.DESC, "date"));
-	
+
 	@Inject private GameRepository gameRepo;
-	
+
 	@Inject private GameByTeamComparator comparator;
-	
+
 	public PingpongGame getGame(Long id) {
 		return gameRepo.findOne(id);
 	}
@@ -39,8 +39,8 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Transactional
-	public void saveGame(PingpongGame game) {
-		gameRepo.save(game);
+	public PingpongGame saveGame(PingpongGame game) {
+		return gameRepo.save(game);
 	}
 
 	public List<PingpongGame> getGamesInSeason(SeasonYear year) {
@@ -48,11 +48,12 @@ public class GameServiceImpl implements GameService {
 	}
 
 	public List<PingpongGame> getGamesInSeasonWeek(SeasonWeek seasonWeek) {
-		if(seasonWeek == null) {
+		if (seasonWeek == null) {
 			return Collections.emptyList();
 		}
 		SeasonYear year = seasonWeek.getSeasonYear();
-		List<PingpongGame> games = gameRepo.findBySeasonWeek(seasonWeek.getWeekNo(), year.getStartDate(), year.getEndDate());
+		List<PingpongGame> games = gameRepo.findBySeasonWeek(seasonWeek.getWeekNo(), year.getStartDate(),
+				year.getEndDate());
 		Collections.sort(games, comparator);
 		return games;
 	}
@@ -64,10 +65,10 @@ public class GameServiceImpl implements GameService {
 		Collections.sort(games, comparator);
 		return games;
 	}
-	
+
 	public List<CalendarWeek> getCalendarWeeks(SeasonYear year) {
 		List<CalendarWeek> result = new ArrayList<CalendarWeek>();
-		for(Integer weekNo: gameRepo.findCalendarWeeksBetween(year.getStartDate(), year.getEndDate())) {
+		for (Integer weekNo : gameRepo.findCalendarWeeksBetween(year.getStartDate(), year.getEndDate())) {
 			CalendarWeek week = new CalendarWeek();
 			week.setWeekNo(weekNo);
 			week.setSeasonYear(year);
@@ -94,7 +95,7 @@ public class GameServiceImpl implements GameService {
 	public List<SeasonWeek> getSeasonWeeks(SeasonYear year) {
 		List<Integer> weekNos = gameRepo.findSeasonWeeksBetween(year.getStartDate(), year.getEndDate());
 		List<SeasonWeek> result = new ArrayList<SeasonWeek>();
-		for(Integer weekNo: weekNos) {
+		for (Integer weekNo : weekNos) {
 			SeasonWeek week = new SeasonWeek();
 			week.setSeasonYear(year);
 			week.setWeekNo(weekNo);
@@ -114,6 +115,30 @@ public class GameServiceImpl implements GameService {
 		week.setSeasonYear(new SeasonYear());
 		week.setWeekNo(weekNos.isEmpty() ? null : weekNos.get(0));
 		return week;
+	}
+
+	@Transactional
+	public PingpongGame createOrUpdateGame(PingpongGame game) {
+		PingpongGame result = getSeasonGame(game.getSeasonYear(), game.getVttlId());
+		if (result == null) {
+			return saveGame(game);
+		}
+		result.setWeekNo(game.getWeekNo());
+		result.setDate(game.getDate());
+		return saveGame(result);
+	}
+
+	private PingpongGame getSeasonGame(SeasonYear year, String vttlId) {
+		return gameRepo.findGameInSeasonByVttlId(vttlId, year.getStartDate(), year.getEndDate());
+	}
+
+	@Transactional
+	public void updateScore(SeasonYear year, String vttlId, int homeTeamPts, int outTeamPts, boolean forfait) {
+		PingpongGame game = getSeasonGame(year, vttlId);
+		game.setHomeTeamPts(homeTeamPts);
+		game.setOutTeamPts(outTeamPts);
+		game.setForfait(forfait);
+		saveGame(game);
 	}
 
 }

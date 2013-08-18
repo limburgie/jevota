@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,11 +31,11 @@ public class LineupServiceImpl implements LineupService {
 	@Inject private GameService gameService;
 	@Inject private MailService mailService;
 	@Inject private RoleService roleService;
-	
+
 	@Transactional
 	public GameLineup getOrCreateLineupForTeamInSeasonWeek(PingpongTeam team, SeasonWeek week) {
 		PingpongGame game = gameService.getGameForTeamInSeasonWeek(week, team);
-		if(game == null) {
+		if (game == null) {
 			return null;
 		}
 		return getOrCreateLineupForTeamInGame(team, game);
@@ -45,7 +44,7 @@ public class LineupServiceImpl implements LineupService {
 	@Transactional
 	public GameLineup getOrCreateLineupForTeamInCalendarWeek(PingpongTeam team, CalendarWeek week) {
 		PingpongGame game = gameService.getGameForTeamInCalendarWeek(week, team);
-		if(game == null) {
+		if (game == null) {
 			return null;
 		}
 		return getOrCreateLineupForTeamInGame(team, game);
@@ -53,7 +52,7 @@ public class LineupServiceImpl implements LineupService {
 
 	private GameLineup getOrCreateLineupForTeamInGame(PingpongTeam team, PingpongGame game) {
 		GameLineup lineup = getLineupForTeamInGame(team, game);
-		if(lineup == null) {
+		if (lineup == null) {
 			lineup = new GameLineup();
 			lineup.setGame(game);
 			lineup.setTeam(team);
@@ -81,17 +80,14 @@ public class LineupServiceImpl implements LineupService {
 		PingpongGame game = lineup.getGame();
 		PingpongTeam team = lineup.getTeam();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("E dd/MM 'om' HH'u'mm", new Locale("nl", "BE"));
-		dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Brussels"));
 		String date = dateFormat.format(game.getDate());
 		Collection<PingpongPlayer> players = lineup.getPlayers();
 		Collection<PingpongPlayer> cc = roleService.getOrCreateRole(RoleName.LINEUP_MANAGER).getPlayers();
 		String title = "Ploegopstelling " + team.getName() + " - " + date;
-		String body = "Beste,\n\n" +
-			"Jullie staan opgesteld voor de wedstrijd tegen " + lineup.getOpponent().getName() + ".\n"+
-			"Deze wedstrijd wordt op " + date + " gespeeld op de volgende locatie:\n\n"+
-			game.getHomeTeam().getClub().getAddress().getFullAddress("\n")+"\n\n"+
-			"Graag een seintje als dit niet voor je lukt.\n\n"+
-			"T.T.C. Jevota Lanaken";
+		String body = "Beste,\n\n" + "Jullie staan opgesteld voor de wedstrijd tegen " + lineup.getOpponent().getName()
+				+ ".\n" + "Deze wedstrijd wordt op " + date + " gespeeld op de volgende locatie:\n\n"
+				+ game.getHomeTeam().getClub().getAddress().getFullAddress("\n") + "\n\n"
+				+ "Graag een seintje als dit niet voor je lukt.\n\n" + "T.T.C. Jevota Lanaken";
 		mailService.sendEmail(players, cc, title, body);
 	}
 

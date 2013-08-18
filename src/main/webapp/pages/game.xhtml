@@ -34,7 +34,7 @@
 				<p:panelGrid columns="2" columnClasses=",bold">
 					<h:outputText value="Wanneer?"/>
 					<h:outputText value="#{gameBean.game.date}">
-						<f:convertDateTime pattern="E dd-MM-yyyy 'om' HH:mm" locale="nl" timeZone="#{msg.timezone}"/>
+						<f:convertDateTime pattern="E dd-MM-yyyy 'om' HH:mm" locale="nl"/>
 					</h:outputText>
 					
 					<h:outputText value="Waar?"/>
