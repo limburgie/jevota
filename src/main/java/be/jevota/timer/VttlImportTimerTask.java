@@ -21,7 +21,7 @@ public class VttlImportTimerTask extends TimerTask {
 	@PostConstruct
 	public void init() {
 		Timer timer = new Timer();
-		timer.schedule(this, new DateMidnight().toDate(), 1000 * 60 * 60 * 24);
+		timer.schedule(this, new DateMidnight().plusDays(1).toDate(), 1000 * 60 * 60 * 24);
 		System.out.println("Timer initialized");
 	}
 
