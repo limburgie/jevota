@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 import be.jevota.domain.PingpongPlayer;
 
 public interface PlayerRepository extends JpaRepository<PingpongPlayer, Long> {
-	
+
 	List<PingpongPlayer> findByActiveOrderByRankingAscLastNameAsc(boolean active);
-	
+
 	List<PingpongPlayer> findByActiveAndMaleOrderByRankingAscLastNameAsc(boolean active, boolean male);
-	
+
 	PingpongPlayer findByEmailAddress(String emailAddress);
 
 	List<PingpongPlayer> findByActiveOrderByMemberNoDesc(boolean active);
@@ -25,5 +25,5 @@ public interface PlayerRepository extends JpaRepository<PingpongPlayer, Long> {
 
 	@Query("FROM PingpongPlayer WHERE emailAddress IS NOT NULL AND emailAddress <> '' AND (password='' OR password IS NULL)")
 	List<PingpongPlayer> getPlayersWithEmailWithoutPassword();
-	
+
 }
