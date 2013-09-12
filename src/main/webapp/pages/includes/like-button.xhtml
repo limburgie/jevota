@@ -1,0 +1,18 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+		(function (d, s, id) {
+		    var js, fjs = d.getElementsByTagName(s)[0];
+		    if (d.getElementById(id)) return;
+		    js = d.createElement(s);
+		    js.id = id;
+		    js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+		    fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<div class="fb-like" data-href="http://www.jevota.be" data-width="450" data-layout="button_count" data-show-faces="false" data-send="false"></div>
+</f:view>

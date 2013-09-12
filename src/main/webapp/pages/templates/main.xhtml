@@ -19,6 +19,10 @@
 		<f:view locale="#{constantsBean.locale}">
 			<div id="header">
 				<div id="header-inner">
+					<div id="social-buttons">
+						<ui:include src="../includes/tweet-button.xhtml"/>
+						<ui:include src="../includes/like-button.xhtml"/>
+					</div>
 					<h1>#{msg.site_title}</h1>
 					<ul id="nav">
 						<li><h:link value="Home" outcome="/pages/home"/></li>

@@ -360,3 +360,8 @@ select.ui-column-filter {
 	width: 60px !important;
 }
 
+#social-buttons {
+	position: absolute;
+	right: 20px;
+	bottom: 40px;
+}
