@@ -135,10 +135,12 @@ public class GameServiceImpl implements GameService {
 	@Transactional
 	public void updateScore(SeasonYear year, String vttlId, int homeTeamPts, int outTeamPts, boolean forfait) {
 		PingpongGame game = getSeasonGame(year, vttlId);
-		game.setHomeTeamPts(homeTeamPts);
-		game.setOutTeamPts(outTeamPts);
-		game.setForfait(forfait);
-		saveGame(game);
+		if (!game.isRecreation()) {
+			game.setHomeTeamPts(homeTeamPts);
+			game.setOutTeamPts(outTeamPts);
+			game.setForfait(forfait);
+			saveGame(game);
+		}
 	}
 
 }
