@@ -27,55 +27,40 @@ import be.jevota.domain.type.Ranking;
 @Entity
 public class PingpongPlayer implements Markeable {
 
-	@Id @GeneratedValue
-	private Long id;
+	@Id @GeneratedValue private Long id;
 
-	@NotNull
-	private String firstName;
-	@NotNull
-	private String lastName;
-	
-	@Enumerated(EnumType.STRING)
-	private Ranking ranking;
-	
-	@Embedded
-	private Address address = new Address();
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany(mappedBy="players")
-	private List<Role> roles;
-	
-	@ManyToMany(mappedBy="players")
-	private List<GameLineup> lineups;
-	
-	@Column(unique=true)
-	private Integer memberNo;
-	
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@ElementCollection
-	@CollectionTable(name="phone_numbers", joinColumns=@JoinColumn(name="playerId"))
-	@Column(name="phoneNumber")
-	private List<String> phoneNumbers;
-	
-	@Column(unique=true)
-	private String emailAddress;
+	@NotNull private String firstName;
+	@NotNull private String lastName;
+
+	@Enumerated(EnumType.STRING) private Ranking ranking;
+
+	@Embedded private Address address = new Address();
+
+	@LazyCollection(LazyCollectionOption.FALSE) @ManyToMany(mappedBy = "players") private List<Role> roles;
+
+	@ManyToMany(mappedBy = "players") private List<GameLineup> lineups;
+
+	@Column(unique = true) private Integer memberNo;
+
+	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "phone_numbers", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "phoneNumber") private List<String> phoneNumbers;
+
+	@Column(unique = true) private String emailAddress;
 	private String password;
 	private boolean recreation;
 	private boolean active;
 	private boolean male;
 	private Date createDate;
 	private Date lastLoginDate;
-	@Transient
-	private int index;
+	@Transient private int index;
 
 	public String getFullName() {
 		return String.format("%s %s", firstName, lastName);
 	}
-	
+
 	public String getShortName() {
 		return String.format("%s %s.", firstName, lastName.substring(0, 1));
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -115,7 +100,7 @@ public class PingpongPlayer implements Markeable {
 	public void setRanking(Ranking ranking) {
 		this.ranking = ranking;
 	}
-	
+
 	public List<String> getPhoneNumbers() {
 		return phoneNumbers;
 	}
@@ -155,7 +140,7 @@ public class PingpongPlayer implements Markeable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	public boolean isMale() {
 		return male;
 	}
@@ -167,7 +152,7 @@ public class PingpongPlayer implements Markeable {
 	public String getRecreationChar() {
 		return recreation ? "R" : "";
 	}
-	
+
 	public String getActiveChar() {
 		return active ? "A" : "";
 	}
@@ -205,7 +190,7 @@ public class PingpongPlayer implements Markeable {
 	}
 
 	public List<Role> getRoles() {
-		if(roles == null) {
+		if (roles == null) {
 			roles = new ArrayList<Role>();
 		}
 		return roles;
@@ -224,6 +209,11 @@ public class PingpongPlayer implements Markeable {
 	}
 
 	public String getMarkerTitle() {
+		return getFullName();
+	}
+
+	@Override
+	public String toString() {
 		return getFullName();
 	}
 
