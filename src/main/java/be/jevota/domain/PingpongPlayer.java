@@ -53,6 +53,8 @@ public class PingpongPlayer implements Markeable {
 	private Date lastLoginDate;
 	@Transient private int index;
 
+	@Column(unique = true) private String vttlId;
+
 	public String getFullName() {
 		return String.format("%s %s", firstName, lastName);
 	}
@@ -206,6 +208,14 @@ public class PingpongPlayer implements Markeable {
 
 	public void setLineups(List<GameLineup> lineups) {
 		this.lineups = lineups;
+	}
+
+	public String getVttlId() {
+		return vttlId;
+	}
+
+	public void setVttlId(String vttlId) {
+		this.vttlId = vttlId;
 	}
 
 	public String getMarkerTitle() {

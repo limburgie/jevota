@@ -14,6 +14,15 @@
 					
 					<h:outputText value="Klassement"/>
 					<h:outputText value="#{playerBean.player.ranking}"/>
+					
+					<h:outputText value="Profiel VTTL" rendered="#{!empty playerBean.player.vttlId}"/>
+					<h:outputLink value="http://competitie.vttl.be" target="_blank" rendered="#{!empty playerBean.player.vttlId}">
+						<f:param name="menu" value="6"/>
+						<f:param name="result" value="1"/>
+						<f:param name="category" value="1"/>
+						<f:param name="sel" value="#{playerBean.player.vttlId}"/>
+						<h:outputText value="Open profielpagina"/>
+					</h:outputLink>
 				</p:panelGrid>
 				<h:panelGroup layout="block" rendered="#{loginBean.loggedIn}">
 					<h3>Contactgegevens</h3>
