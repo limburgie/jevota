@@ -90,7 +90,7 @@ public class LineupServiceImpl implements LineupService {
 				+ " gespeeld op de volgende locatie:\n\n" + lineup.getOpponent().getName() + "\n"
 				+ game.getHomeTeam().getClub().getAddress().getFullAddress("\n") + "\n\n"
 				+ "Graag een seintje als dit niet voor je lukt.\n\n" + "T.T.C. Jevota Lanaken";
-		mailService.sendEmail(players, cc, title, body);
+		mailService.sendEmail(players, cc, title, body, true);
 	}
 
 }

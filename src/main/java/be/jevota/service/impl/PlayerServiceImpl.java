@@ -135,7 +135,7 @@ public class PlayerServiceImpl implements PlayerService {
 		mailService.sendEmail(player, "Nieuw wachtwoord", "Beste " + player.getFullName() + ",\n\n"
 				+ "Er werd een nieuw wachtwoord voor je gegenereerd.\n"
 				+ "Hiermee kan je inloggen op http://www.jevota.be\n\n" + "Je nieuw wachtwoord is:\n"
-				+ newPassPlaintext + "\n\n" + "T.T.C. Jevota Lanaken");
+				+ newPassPlaintext + "\n\n" + "T.T.C. Jevota Lanaken", false);
 	}
 
 	public void sendNewPasswordLink(PingpongPlayer player) throws InvalidEmailException {
@@ -145,7 +145,7 @@ public class PlayerServiceImpl implements PlayerService {
 				+ "Dit wachtwoord zal doorgestuurd worden op dit adres.\n\n"
 				+ "Als je geen nieuw wachtwoord wenste te genereren, negeer dan deze email.\n\n"
 				+ "http://www.jevota.be/pages/reset-password.jsf?i=" + player.getId() + "&m=" + player.getMemberNo()
-				+ "\n\n" + "T.T.C. Jevota Lanaken");
+				+ "\n\n" + "T.T.C. Jevota Lanaken", false);
 	}
 
 	@Transactional
@@ -210,7 +210,7 @@ public class PlayerServiceImpl implements PlayerService {
 				body += "\n\n" + fieldUpdate;
 			}
 			body += "\n\nT.T.C. Jevota Lanaken";
-			mailService.sendEmail(to, cc, subject, body);
+			mailService.sendEmail(to, cc, subject, body, true);
 		}
 		return result;
 	}
