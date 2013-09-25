@@ -8,116 +8,16 @@
 				<h2>Contactinformatie</h2>
 				<p:tabView>
 					<p:tab title="Contact">
-						<p class="club-address">
-							<span id="151254">T.T.C. Jevota (LK031)</span><span id="892192">Biesweg 16</span><span
-								id="997278">3620 Gellik</span>
-						</p>
-						<p class="club-contact">
-							<span id="130628">T 089/71.45.35</span>
-						</p>
-						<br/>
-						<p:gmap zoom="15" type="ROADMAP" center="#{contactBean.lanaken.address.position.latitude}, #{contactBean.lanaken.address.position.longitude}"
-							rendered="#{contactBean.lanaken.address.position.valid}" style="width:100%;height:400px" model="#{contactBean.mapModel}"/>
+						<ui:include src="contact/adres.xhtml"/>
 					</p:tab>
 					<p:tab title="Openingsuren">
-						<p:panelGrid columns="3" columnClasses="bold,,">
-							<h:outputText value="Dinsdag"/>
-							<h:outputText/>
-							<h:outputText value="18u30 - 24u00"/>
-							
-							<h:outputText value="Woensdag"/>
-							<h:outputText/>
-							<h:outputText value="19u00 - 24u00"/>
-							
-							<h:outputText value="Donderdag"/>
-							<h:outputText value="10u00 - 12u00"/>
-							<h:outputText value="19u00 - 24u00"/>
-							
-							<h:outputText value="Zaterdag"/>
-							<h:outputText value="10u00 - 12u00"/>
-							<h:outputText value="18u00 - ..."/>
-						</p:panelGrid>
+						<ui:include src="contact/openingsuren.xhtml"/>
 					</p:tab>
 					<p:tab title="Trainingen">
-						<p>Om een zo goed mogelijke training op ieder niveau te organiseren worden er sinds dit jaar 4 trainingsgroepen gebruikt:</p>
-						<ul>
-							<li><b>Groep 1</b> - Beginnelingen waarbij de basistechnieken nog (redelijk) aangeleerd moeten worden.</li>
-							<li><b>Groep 2</b> - Beginnelingen waarbij we verdergaan op de basistechnieken, met hierbij een eerste
-								kennismaking met wedstrijdgegevens.</li>
-							<li><b>Groep 3</b> - Spelers met een redelijk niveau (t/m E4), waarbij er verder gegaan wordt op wedstrijdniveau
-								en de eerste stappen techniek toegepast worden.</li>
-							<li><b>Groep 4</b> - Spelers vanaf klassement E2, waarbij er vooral gewerkt wordt op tactisch wedstrijdniveau. Dit
-								na een inwerkperiode om eerst vastheid te creëren.</li>
-						</ul>
-						<p>De trainingsuren zijn alsvolgt:</p>
-						<ul>
-							<li>Groepen 1 t/m 3 krijgen geleide training op <b>dinsdag van 19u00 tot 20u30</b>.</li>
-							<li>Groep 4 krijgt geleide training op <b>dinsdag van 20u30 tot 22u00</b>.</li>
-							<li>Groepen 2 en 3 krijgen daarnaast nog meer op wedstrijden gerichte training op <b>zaterdag van 10u00 tot 11u30</b>.</li>
-						</ul>
+						<ui:include src="contact/trainingen.xhtml"/>
 					</p:tab>
 					<p:tab title="Bestuur">
-						<p:panelGrid columns="2" columnClasses="bold,">
-							<h:outputText value="Voorzitter"/>
-							<h:panelGroup>
-								Dreesen Guido<br/>
-								P.P.Rubensstraat 7<br/>
-								3620 Lanaken<br/>
-								089/71.60.48
-							</h:panelGroup>
-							
-							<h:outputText value="Ondervoorzitter"/>
-							<h:panelGroup>
-								Croux Jozef<br/>
-								089/71.20.57
-							</h:panelGroup>
-							
-							<h:outputText value="Secretaris"/>
-							<h:panelGroup>
-								Nickmans Martijn<br/>
-								Pannestraat 135<br/>
-								3620 Lanaken<br/>
-								089/72.25.36
-							</h:panelGroup>
-							
-							<h:outputText value="Penningmeester"/>
-							<h:panelGroup>
-								Mooren Johan<br/>
-								Bremstraat 58<br/>
-								3620 Lanaken<br/>
-								0485/69.85.71
-							</h:panelGroup>
-							
-							<h:outputText value="Bankrekening"/>
-							<h:outputText value="BE64 7353 5801 4052"/>
-							
-							<h:outputText value="Bestuursleden"/>
-							<h:panelGroup>
-								Nijs Kristof<br/>
-								Vandecaetsbeek Robin
-							</h:panelGroup>
-							
-							<h:outputText value="Sportcommissie"/>
-							<h:panelGroup>
-								Brasseur Dieter<br/>
-								Interclubcompetitie A t/m F: Dreesen Mattie (0476/78.90.78)<br/>
-								Interclubcompetitie G en H: Dreesen Guido (089/71.60.48)<br/>
-								Vrijetijd interclub: Vansomeren Hanny (089/71.73.31)<br/>
-								Trainers: Boelen Michaël, Franssen Bart, Mertens Jeroen
-							</h:panelGroup>
-							
-							<h:outputText value="50 jaar commissie"/>
-							<h:outputText value="Vansomeren Patrick"/>
-							
-							<h:outputText value="Bestuursleden VZW"/>
-							<h:panelGroup>
-								Voorzitter: Maessen Marlies<br/>
-								Secretaris: Heemskerk Wendy
-							</h:panelGroup>
-							
-							<h:outputText value="Redactie boekje"/>
-							<h:outputText value="Dreesen Guido"/>
-						</p:panelGrid>
+						<ui:include src="contact/bestuur.xhtml"/>
 					</p:tab>
 				</p:tabView>
 			</div>
