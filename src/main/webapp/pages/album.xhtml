@@ -14,7 +14,7 @@
 							<f:convertDateTime pattern="dd-MM-yyyy"/>
 						</h:outputText>
 					</b>
-					- <h:outputText value="#{photoBean.album.description}"/>
+					<h:outputText value="- #{photoBean.album.description}" rendered="#{!empty photoBean.album.description}"/>
 				</p>
 				<br/>
 				<h:form>

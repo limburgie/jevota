@@ -32,7 +32,7 @@ public class PhotoServicePicasaImpl implements PhotoService {
 
 	@Inject private PhotoRepository photoRepo;
 	@Inject private PhotoAlbumRepository albumRepo;
-	
+
 	public List<PhotoAlbum> getAlbums() {
 		return albumRepo.findAll();
 	}
@@ -53,7 +53,7 @@ public class PhotoServicePicasaImpl implements PhotoService {
 			PicasawebService picasaService = new PicasawebService("jevota.be");
 			URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/info@jevota.be?kind=album");
 			UserFeed userFeed = picasaService.getFeed(feedUrl, UserFeed.class);
-			for(AlbumEntry albumEntry: userFeed.getAlbumEntries()) {
+			for (AlbumEntry albumEntry : userFeed.getAlbumEntries()) {
 				PhotoAlbum album = new PhotoAlbum();
 				album.setName(albumEntry.getTitle().getPlainText());
 				album.setDescription(albumEntry.getDescription().getPlainText());
@@ -61,11 +61,12 @@ public class PhotoServicePicasaImpl implements PhotoService {
 				album.setThumbnailUrl(albumEntry.getMediaThumbnails().get(0).getUrl());
 				album.setPhotos(new ArrayList<Photo>());
 				AlbumFeed albumFeed = albumEntry.getFeed(PhotoData.KIND);
-				for(PhotoEntry photoEntry: albumFeed.getPhotoEntries()) {
+				for (PhotoEntry photoEntry : albumFeed.getPhotoEntries()) {
 					Photo photo = new Photo();
 					photo.setDescription(photoEntry.getMediaGroup().getDescription().getPlainTextContent());
-					photo.setThumbnailUrl(photoEntry.getMediaThumbnails().get(0).getUrl());
-					photo.setUrl(photoEntry.getMediaContents().get(0).getUrl());
+					String thumbNailUrl = photoEntry.getMediaThumbnails().get(0).getUrl();
+					photo.setThumbnailUrl(thumbNailUrl);
+					photo.setUrl(thumbNailUrl.replaceAll("s72", "s800"));
 					photo.setAlbum(album);
 					album.getPhotos().add(photo);
 				}
