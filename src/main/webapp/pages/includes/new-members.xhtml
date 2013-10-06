@@ -1,0 +1,16 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<div class="block">
+		<h2>Nieuwe leden</h2>
+		<p:dataTable value="#{playerBean.newPlayers}" var="player" rows="5" styleClass="noHeader">
+			<p:column>
+				<h:link outcome="/pages/player" value="#{player.fullName}">
+					<f:param name="playerId" value="#{player.id}"/>
+				</h:link>
+			</p:column>
+		</p:dataTable>
+	</div>
+</f:view>

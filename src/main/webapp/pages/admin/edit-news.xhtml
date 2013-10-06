@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			<h:outputText rendered="#{newsBean.newItem}" value="Nieuw item"/>
+			<h:outputText rendered="#{!newsBean.newItem}" value="Nieuwsitem aanpassen"/>
+		</ui:define>
+		<ui:define name="main">
+			<p:messages id="messages"/>
+			<h:form>
+				<p:focus for="title"/>
+				<p>
+					<p:outputLabel for="title" value="Titel"/><br/>
+					<p:inputText id="title" value="#{newsBean.item.title}" required="true" size="30"/>
+				</p>
+				<p>
+					<p:outputLabel for="body" value="Tekst"/><br/>
+					<p:editor id="body" value="#{newsBean.item.body}" required="true" controls="bold italic bullets numbering image link unlink source"/>
+				</p>
+				<p>
+					<p:commandButton value="Opslaan" action="#{newsBean.save}" ajax="false" update="messages"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

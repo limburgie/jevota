@@ -1,0 +1,2 @@
+INSERT INTO phone_numbers (playerId, phoneNumber) SELECT id, phone FROM pingpongplayer WHERE phone IS NOT NULL and phone <> '';
+INSERT INTO phone_numbers (playerId, phoneNumber) SELECT id, mobile FROM pingpongplayer WHERE mobile IS NOT NULL and mobile <> '';

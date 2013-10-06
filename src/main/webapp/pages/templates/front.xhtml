@@ -1,0 +1,90 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="main.xhtml">
+		<ui:define name="title">Home</ui:define>
+		<ui:define name="body">
+			<div class="col wide">
+				<ui:insert name="left-col"/>
+			</div>
+			<div class="col small">
+				<div class="block">
+					<h:form>
+						<h:panelGroup layout="block" rendered="#{!loginBean.loggedIn}">
+							<h2>Login</h2>
+							<p:messages id="messages"/>
+							<div>
+								<p></p>
+								<p>
+									<p:outputLabel for="login-email" value="E-mailadres"/>
+									<p:inputText id="login-email" value="#{loginBean.emailAddress}" required="true"/>
+								</p>
+								<p>
+									<p:outputLabel for="login-pass" value="Wachtwoord"/>
+									<p:password id="login-pass" value="#{loginBean.password}" required="true"/>
+								</p>
+								<p>
+									<p:commandButton value="Login" action="#{loginBean.login}" ajax="false" update="messages"/>
+								</p>
+								<ul>
+									<li><p:commandLink value="Wachtwoord vergeten?" onclick="forgotPasswordDialog.show()" immediate="true"/></li>
+									<li><a href="mailto:info@jevota.be">Vraag je account aan!</a></li>
+								</ul>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup layout="block" rendered="#{loginBean.loggedIn}">
+							<h2>Mijn account</h2>
+							<p>
+								Welkom, #{loginBean.player.firstName}!
+							</p>
+							<p>
+								<p:commandButton value="Logout" action="#{loginBean.logout}" ajax="false"/>
+							</p>
+							<ul>
+								<li><h:link value="Mijn profiel" outcome="/pages/profile"/></li>
+								<h:panelGroup rendered="#{accountBean.powerUser}">
+									<li><h:link value="Controlepaneel" outcome="/pages/admin/home"/></li>
+								</h:panelGroup>
+							</ul>
+						</h:panelGroup>
+					</h:form>
+				</div>
+				<ui:insert name="right-col"/>
+				<div class="block">
+					<h2>Contact</h2>
+					<div>
+						<p class="club-address">
+							<span>T.T.C. Jevota Lanaken</span>
+							<span>Biesweg 16</span>
+							<span>3620 Gellik</span>
+						</p>
+						<p class="club-contact">
+							<span>089/71.45.35</span>
+							info@jevota.be
+						</p>
+						<h:link outcome="/pages/contact" value="Meer informatie"/>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<p:dialog widgetVar="forgotPasswordDialog" header="Nieuw wachtwoord aanvragen" modal="true">
+				<h:form>
+					<p:messages id="messages"/>
+					<p>
+						Vul je emailadres in en klik op de knop. Je zal op dit adres een link ontvangen<br/>
+						waarmee je een nieuw wachtwoord kan laten genereren.
+					</p>
+					<p>
+						<p:outputLabel for="forgot-pw-email" value="E-mailadres"/><br/>
+						<p:inputText id="forgot-pw-email" value="#{loginBean.emailAddress}"/>
+					</p>
+					<p>
+						<p:commandButton value="Stuur wachtwoord link" action="#{loginBean.sendNewPasswordLink}" update="messages"/>
+					</p>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,43 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer nieuws</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p>
+					<p:button value="Nieuw item" outcome="/pages/admin/edit-news.xhtml">
+						<f:param name="redirect" value="/pages/admin/news.xhtml?faces-redirect=true"/>
+					</p:button>
+				</p>
+				<p:dataTable value="#{newsBean.items}" var="item">
+					<p:column headerText="Titel" sortBy="#{item.title}">
+						#{item.title}
+					</p:column>
+					<p:column headerText="Geschreven" sortBy="#{item.createDate}">
+						<h:outputText value="#{item.createDate}">
+							<f:convertDateTime pattern="#{msg.date_format}"/>
+						</h:outputText>
+						<br/>
+						<h:outputText value="#{item.initialAuthor.fullName}"/>
+					</p:column>
+					<p:column headerText="Laatst gewijzigd" sortBy="#{item.modifiedDate}">
+						<h:outputText value="#{item.modifiedDate}">
+							<f:convertDateTime pattern="#{msg.date_format}"/>
+						</h:outputText>
+						<br/>
+						<h:outputText value="#{item.lastAuthor.fullName}"/>
+					</p:column>
+					<p:column>
+						<p:menuButton value="Opties">
+							<p:menuitem value="Aanpassen" outcome="/pages/admin/edit-news.xhtml?itemId=#{item.id}">
+								<f:param name="itemId" value="#{item.id}"/>
+								<f:param name="redirect" value="/pages/admin/news.xhtml?faces-redirect=true"/>
+							</p:menuitem>
+						</p:menuButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

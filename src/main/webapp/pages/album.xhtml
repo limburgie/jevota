@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Foto's</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h2>#{photoBean.album.name}</h2>
+				<p>
+					<b>
+						<h:outputText value="#{photoBean.album.date}">
+							<f:convertDateTime pattern="dd-MM-yyyy"/>
+						</h:outputText>
+					</b>
+					<h:outputText value="- #{photoBean.album.description}" rendered="#{!empty photoBean.album.description}"/>
+				</p>
+				<br/>
+				<h:form>
+					<p:lightBox>
+						<ui:repeat value="#{photoBean.album.photos}" var="photo">
+							<h:outputLink value="#{photo.url}" title="#{photo.description}" styleClass="photo">
+								<h:graphicImage value="#{photo.thumbnailUrl}" alt="#{photo.description}" title="#{photo.description}"/>
+							</h:outputLink>
+						</ui:repeat>
+					</p:lightBox>
+				</h:form>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/other-albums.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

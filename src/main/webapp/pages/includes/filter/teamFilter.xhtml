@@ -1,0 +1,13 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+	<h:selectOneMenu id="filterByTeam" value="#{teamFilterBean.filter}">
+		<f:selectItem itemLabel="" itemValue="#{null}"/>
+		<f:selectItems value="#{teamFilterBean.items}" var="team" itemValue="#{team}" itemLabel="#{team.name}"/>
+		<f:converter binding="#{teamFilterBean}"/>
+		<p:ajax listener="#{gameFilterBean.filterByTeam}" update="games,filter"/>
+	</h:selectOneMenu>
+	
+</f:view>

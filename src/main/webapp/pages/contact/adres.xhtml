@@ -1,0 +1,14 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p class="club-address">
+		<span id="151254">T.T.C. Jevota (LK031)</span><span id="892192">Biesweg 16</span><span
+			id="997278">3620 Gellik</span>
+	</p>
+	<p class="club-contact">
+		<span id="130628">T 089/71.45.35</span>
+	</p>
+	<br/>
+	<p:gmap zoom="15" type="ROADMAP" center="#{contactBean.lanaken.address.position.latitude}, #{contactBean.lanaken.address.position.longitude}"
+		rendered="#{contactBean.lanaken.address.position.valid}" style="width:100%;height:400px" model="#{contactBean.mapModel}"/>
+</f:view>

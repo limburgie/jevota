@@ -1,0 +1,80 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">
+			Profiel
+		</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h:panelGroup rendered="#{loginBean.loggedIn}">
+					<h2>Profiel aanpassen</h2>
+					<p:tabView>
+						<p:tab title="Persoonlijke gegevens">
+							<h:form>
+								<p:messages id="messages"/>
+								<p:focus for="emailAddress"/>
+								<p>
+									<p:outputLabel for="emailAddress" value="E-mailadres"/><br/>
+									<p:inputText id="emailAddress" value="#{loginBean.player.emailAddress}" size="20" required="true"/>
+								</p>
+								<p>
+									<p:outputLabel for="street" value="Straat (bv. Daalstraat 24)"/><br/>
+									<p:inputText id="street" value="#{loginBean.player.address.street}" size="30"/>
+								</p>
+								<p>
+									<p:outputLabel for="postalCode" value="Postcode (bv. 3620)"/><br/>
+									<p:inputText id="postalCode" value="#{loginBean.player.address.postalCode}" size="5"/>
+								</p>
+								<p>
+									<p:outputLabel for="place" value="Plaats (bv. Lanaken)"/><br/>
+									<p:inputText id="place" value="#{loginBean.player.address.place}" size="20"/>
+								</p>
+								<p>
+									<p:outputLabel for="country" value="Land"/><br/>
+									<p:inputText id="country" value="#{loginBean.player.address.country}" size="10"/>
+								</p>
+								<p>
+									<h:outputText value="Telefoonnummers (een per regel, bv. 089/12.34.56)"/><br/>
+									<p:inputTextarea value="#{loginBean.player.phoneNumbers}">
+										<f:converter binding="#{phoneNumberListConverter}"/>
+									</p:inputTextarea>
+								</p>
+								<p>
+									<p:commandButton value="Opslaan" action="#{profileBean.save}" update="@form"/>
+								</p>
+							</h:form>
+						</p:tab>
+						<p:tab title="Wachtwoord aanpassen">
+							<h:form>
+								<p:messages id="messages"/>
+								<p>
+									<p:outputLabel for="old-password" value="Oud wachtwoord"/><br/>
+									<p:password id="old-password" value="#{profileBean.oldPassword}" size="15" required="true"/>
+								</p>
+								<p>
+									<p:outputLabel for="new-password" value="Nieuw wachtwoord"/><br/>
+									<p:password id="new-password" value="#{profileBean.newPassword}" size="15" feedback="true"
+										match="repeat-new-password" promptLabel="Kies een wachtwoord" required="true"
+										weakLabel="Zwak" goodLabel="Goed" strongLabel="Zeer goed"/>
+								</p>
+								<p>
+									<p:outputLabel for="repeat-new-password" value="Herhaal wachtwoord"/><br/>
+									<p:password id="repeat-new-password" value="#{profileBean.repeatNewPassword}" size="15" required="true"/>
+								</p>
+								<p>
+									<p:commandButton value="Opslaan" action="#{profileBean.updatePassword}" update="messages"/>
+								</p>
+							</h:form>
+						</p:tab>
+					</p:tabView>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/new-members.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

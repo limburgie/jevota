@@ -1,0 +1,35 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Nieuws</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<ui:repeat value="#{newsBean.items}" var="item" varStatus="status">
+					<div class="newsItem-#{status.odd?'odd':'even'}">
+						<div class="float-right right">
+							<h:outputText value="#{item.initialAuthor.fullName}, "/>
+							<h:outputText value="#{item.createDate}">
+								<f:convertDateTime pattern="#{msg.date_format}"/>
+							</h:outputText>
+						</div>
+						<h2>#{item.title}</h2>
+						<div>
+							<h:outputText value="#{item.body}" escape="false"/>
+						</div>
+						<h:panelGroup rendered="#{accountBean.newsMgr}">
+							<p>
+								<p:button value="Aanpassen" outcome="/pages/admin/edit-news">
+									<f:param name="itemId" value="#{item.id}"/>
+									<f:param name="redirect" value="/pages/news.xhtml?itemId=#{item.id}&amp;faces-redirect=true"/>
+								</p:button>
+							</p>
+						</h:panelGroup>
+					</div>
+				</ui:repeat>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

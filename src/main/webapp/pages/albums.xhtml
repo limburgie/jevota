@@ -1,0 +1,28 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Foto's</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h2>Fotogalerij</h2>
+				<p:dataGrid value="#{photoBean.albums}" var="album" columns="3" rows="9"
+					paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+					<p:panel header="#{album.name}" styleClass="album-panel">
+						<h:link outcome="/pages/album">
+							<h:graphicImage url="#{album.thumbnailUrl}"/>
+							<f:param name="albumId" value="#{album.id}"/>
+						</h:link>
+						<p>
+							<h:outputText value="#{album.date}">
+								<f:convertDateTime pattern="dd-MM-yyyy"/>
+							</h:outputText>
+						</p>
+					</p:panel>
+				</p:dataGrid>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

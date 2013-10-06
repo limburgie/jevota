@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" dir="ltr"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title><ui:insert name="title"/> | #{msg.site_title}</title>
+		<h:outputStylesheet name="css/screen.css"/>
+		<h:outputScript library="js" name="locales.js"/>
+		<h:outputScript library="js" name="jquery-1.8.2.min.js"/>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript">
+			$.noConflict();
+		</script>
+	</h:head>
+	<h:body>
+		<f:view locale="#{constantsBean.locale}">
+			<div id="header">
+				<div id="header-inner">
+					<div id="social-buttons">
+						<ui:include src="../includes/tweet-button.xhtml"/>
+						<ui:include src="../includes/like-button.xhtml"/>
+					</div>
+					<h1>#{msg.site_title}</h1>
+					<ul id="nav">
+						<li><h:link value="Home" outcome="/pages/home"/></li>
+						<li><h:link value="Nieuws" outcome="/pages/news"/></li>
+						<li><h:link value="Leden" outcome="/pages/players"/></li>
+						<li><h:link value="Foto's" outcome="/pages/albums"/></li>
+						<li><h:link value="Contact" outcome="/pages/contact"/></li>
+						<h:panelGroup rendered="#{accountBean.powerUser}">
+							<li><h:link value="Admin" outcome="/pages/admin/home"/></li>
+						</h:panelGroup>
+					</ul>
+				</div>
+			</div>
+			<div id="wrapper">
+				<div id="page">
+					<ui:insert name="body"/>
+				</div>
+			</div>
+			<div id="footer">
+				<p>
+					Jevota 
+					<h:outputLink value="https://github.com/limburgie/jevota/issues?page=1&amp;state=closed" target="_blank">v#{build.version}</h:outputLink> - 
+					Laatste update op #{build.date} - Ontwikkeld door
+					<h:outputLink value="http://www.web-factor.be" target="_blank">Web Factor</h:outputLink>
+				</p>
+			</div>
+			<p:ajaxStatus onstart="showStatusDialog()" oncomplete="hideStatusDialog()"/>
+			<p:dialog header="Even geduld..." widgetVar="statusDialog" modal="true" closable="false" resizable="false">
+				<h:panelGrid columns="2" style="margin:0">
+					<p:graphicImage library="img" name="ajaxloading.gif" style="padding-right:10px"/>
+					<h:panelGroup>
+						De server is momenteel bezig om je opdracht te verwerken.<br/>
+						Dit kan enkele seconden duren.<br/><br/>
+						Als dit scherm niet verdwijnt, herlaad dan de pagina.<br/>
+						Hierdoor verlies je mogelijk wel gegevens.
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:dialog>
+		</f:view>
+		<script type="text/javascript">
+			jQuery(function($) {
+				var currentPath = window.location.pathname;
+				$("#nav a").each(function () {
+					if($(this).attr("href") == currentPath) {
+						$(this).addClass("selected");
+					}
+				});
+			});
+
+			var statusDlgTimer = null;
+			function showStatusDialog() {
+				if (statusDlgTimer == null) {
+					statusDlgTimer = setTimeout("statusDialog.show()", 1000);
+				}
+			}
+
+			function hideStatusDialog() {
+				if (statusDlgTimer != null) {
+					clearTimeout(statusDlgTimer);
+					statusDialog.hide();
+					statusDlgTimer = null;
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-36053649-1']);
+			_gaq.push(['_setDomainName', 'jevota.be']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</h:body>
+</html>

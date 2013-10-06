@@ -1,0 +1,59 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Leden</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h2>#{playerBean.player.fullName}</h2>
+				<p:panelGrid columns="2" columnClasses=",bold">
+					<h:outputText value="Lidnummer"/>
+					<h:outputText value="#{playerBean.player.memberNo}"/>
+					
+					<h:outputText value="Klassement"/>
+					<h:outputText value="#{playerBean.player.ranking}"/>
+					
+					<h:outputText value="Profiel VTTL" rendered="#{!empty playerBean.player.vttlId}"/>
+					<h:outputLink value="http://competitie.vttl.be" target="_blank" rendered="#{!empty playerBean.player.vttlId}">
+						<f:param name="menu" value="6"/>
+						<f:param name="result" value="1"/>
+						<f:param name="category" value="1"/>
+						<f:param name="sel" value="#{playerBean.player.vttlId}"/>
+						<h:outputText value="Open profielpagina"/>
+					</h:outputLink>
+				</p:panelGrid>
+				<h:panelGroup layout="block" rendered="#{loginBean.loggedIn}">
+					<h3>Contactgegevens</h3>
+					<p:panelGrid columns="2" columnClasses=",bold">
+						<h:outputText value="E-mail"/>
+						<h:outputText value="#{playerBean.player.emailAddress}"/>
+	
+						<h:outputText value="Tel."/>
+						<ui:repeat value="#{playerBean.player.phoneNumbers}" var="phone">
+							<div><h:outputText value="#{phone}"/></div>
+						</ui:repeat>
+	
+						<h:outputText value="Adres"/>
+						<h:outputText value="#{playerBean.player.address.fullAddress}" escape="false"/>
+					</p:panelGrid>
+					<br/>
+					<p:gmap zoom="15" type="ROADMAP" center="#{playerBean.player.address.position.latitude}, #{playerBean.player.address.position.longitude}"
+						rendered="#{playerBean.player.address.position.valid}" style="width:100%;height:400px" model="#{playerBean.mapModel}"/>
+					<h:panelGroup rendered="#{accountBean.playerMgr}">
+						<p>
+							<p:button value="Aanpassen" outcome="/pages/admin/edit-player">
+								<f:param name="playerId" value="#{playerBean.player.id}"/>
+								<f:param name="redirect" value="/pages/player.xhtml?playerId=#{playerBean.player.id}&amp;faces-redirect=true"/>
+							</p:button>
+						</p>
+					</h:panelGroup>
+				</h:panelGroup>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/new-members.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

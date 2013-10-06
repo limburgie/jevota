@@ -1,0 +1,34 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">Beheer nieuws</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p:messages id="messages"/>
+				<p>
+					Fotoalbums worden beheerd via <a href="http://picasaweb.google.com" target="_blank">Picasa</a>. Log op deze
+					applicatie in met gebruikersnaam <b>info@jevota.be</b> en wachtwoord <b>j3vot@4ever</b> en voeg albums en foto's toe.
+					Als je klaar bent kan je met een druk op onderstaande knop de gegevens ophalen in de Jevota website. Vanaf dan zullen 
+					de nieuwe albums en foto's zichtbaar zijn in de website.
+				</p>
+				<p>
+					<p:commandButton value="Synchroniseren" action="#{photoBean.synchronize}" update="messages,albums"/>
+				</p>
+				<p:dataTable id="albums" value="#{photoBean.albums}" var="album">
+					<p:column headerText="Datum" sortBy="#{album.date}">
+						<h:outputText value="#{album.date}">
+							<f:convertDateTime pattern="dd-MM-yyy"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Naam" sortBy="#{album.name}">
+						#{album.name}
+					</p:column>
+					<p:column headerText="Foto's" sortBy="#{album.photoCount}">
+						#{album.photoCount}
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

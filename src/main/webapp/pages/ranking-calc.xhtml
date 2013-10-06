@@ -1,0 +1,66 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">
+			Klassementberekening
+		</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h2>Bereken je nieuw klassement</h2>
+				<h:form id="form">
+					<p:messages id="messages"/>
+					<div class="float-left" style="width:320px">
+						<p>
+							Huidig klassement: 
+							<h:selectOneMenu value="#{rankingCalcBean.scoreList.current}">
+								<f:selectItems value="#{constantsBean.rankingItems}"/>
+							</h:selectOneMenu>
+						</p>
+						<h:panelGroup id="new-ranking">
+							<h:panelGroup rendered="#{!empty rankingCalcBean.newRanking}">
+								<p>
+									Vermoedelijk nieuw klassement: 
+									<b>#{rankingCalcBean.newRanking}</b>
+								</p>
+							</h:panelGroup>
+						</h:panelGroup>
+						<p>
+							Deze module berekent je vermoedelijke nieuwe klassement aan de hand van je prestaties van het
+							huidige seizoen. De uitslag van deze module is niet bindend, maar geeft wel een indicatie van 
+							de mate waarin je klassement kan stijgen of dalen.
+						</p>
+						<p>
+							Hoe meer resultaten worden ingevoerd, des te nauwkeuriger de module wordt. Neem de uitslag dus zeker
+							met een korrel zout als er maar weinig resultaten bekend zijn.
+						</p>
+						<p>
+							<p:commandButton value="Bereken nieuw klassement" action="#{rankingCalcBean.calculate}" update="new-ranking"/>
+						</p>
+						<p>
+							<p:commandLink value="Leegmaken" action="#{rankingCalcBean.reset}" update="@form"/>
+						</p>
+					</div>
+					<div class="float-right">
+						<p:dataTable value="#{rankingCalcBean.scoreList.scores}" var="score" tableStyle="width:auto">
+							<p:column headerText="">
+								#{score.ranking}
+							</p:column>
+							<p:column headerText="W">
+								<p:spinner value="#{score.wins}" size="1" min="0"/>
+							</p:column>
+							<p:column headerText="V">
+								<p:spinner value="#{score.losses}" size="1" min="0"/>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/new-members.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

@@ -1,0 +1,38 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			#{roleBean.role.name.name}
+		</ui:define>
+		<ui:define name="main">
+			<p:messages autoUpdate="true"/>
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:selectOneMenu value="#{roleBean.player}">
+						<f:selectItem itemLabel="" itemValue="#{null}"/>
+						<f:selectItems value="#{playerBean.activePlayers}" var="player" itemLabel="#{player.fullName}" itemValue="#{player}"/>
+						<f:converter binding="#{playerBean}"/>
+					</h:selectOneMenu>
+				
+					<p:commandButton value="Toevoegen" action="#{roleBean.addPlayer}" update="@form"/>
+				</p:panelGrid>
+				
+				<p:dataTable value="#{roleBean.role.players}" var="player" tableStyle="width:auto">
+					<p:column headerText="Speler">
+						#{player.fullName}
+					</p:column>
+					<p:column>
+						<p:commandButton value="Delete" action="#{roleBean.removePlayer(player.id)}" update="@form"/>
+					</p:column>
+				</p:dataTable>
+				
+				<p>
+					<p:commandButton value="Opslaan" action="#{roleBean.save}" ajax="false"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>

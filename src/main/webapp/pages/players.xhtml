@@ -1,0 +1,57 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Leden</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h:form>
+					<div class="float-left">
+						<h2>Ledenoverzicht</h2>
+					</div>
+					<div class="float-right">
+						<div class="filter">
+							<p:selectOneButton value="#{playerBean.maleOnly}">
+								<f:selectItem itemLabel="Alle spelers" itemValue="#{false}"/>
+								<f:selectItem itemLabel="Sterktelijst heren" itemValue="#{true}"/>
+								<p:ajax listener="#{playerBean.initActivePlayers}" update="players"/>
+							</p:selectOneButton>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<p:dataTable id="players" value="#{playerBean.activePlayers}" var="player" rowIndexVar="row"
+						selection="#{playerBean.player}" selectionMode="single" rowKey="#{player.id}">
+						<p:ajax event="rowSelect" listener="#{playerBean.toPlayer}"/>
+						<p:column>
+							#{row+1}
+						</p:column>
+						<p:column headerText="Index">
+							#{player.index}
+						</p:column>
+						<p:column headerText="Lidnr.">
+							#{player.memberNo}
+						</p:column>
+						<p:column headerText="Achternaam">
+							<h:link outcome="/pages/player.xhtml?playerId=#{player.id}" value="#{player.lastName}"/>
+						</p:column>
+						<p:column headerText="Voornaam">
+							<h:link outcome="/pages/player.xhtml?playerId=#{player.id}" value="#{player.firstName}"/>
+						</p:column>
+						<p:column headerText="Ranking">
+							#{player.ranking}
+						</p:column>
+						<p:column headerText="Rec.">
+							#{player.recreation ? 'R' : ''}
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</ui:define>
+		<ui:define name="right-col">
+			<ui:include src="includes/calculate-ranking.xhtml"/>
+			<ui:include src="includes/new-members.xhtml"/>
+		</ui:define>
+	</ui:composition>
+</f:view>

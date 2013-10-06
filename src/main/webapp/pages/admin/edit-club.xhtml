@@ -1,0 +1,53 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			<h:outputText rendered="#{clubBean.newClub}" value="Nieuw club"/>
+			<h:outputText rendered="#{!clubBean.newClub}" value="#{clubBean.club.name}"/>
+		</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p:messages id="messages"/>
+				<p:focus for="number"/>
+				<p>
+					<p:outputLabel for="number" value="Stamnummer (bv. 002)"/><br/>
+					LK<p:inputText id="number" value="#{clubBean.club.number}" required="true" size="3"/>
+				</p>
+				<p>
+					<p:outputLabel for="shortName" value="Korte naam (bv. Bree)"/><br/>
+					<p:inputText id="shortName" value="#{clubBean.club.shortName}" required="true" size="10"/>
+				</p>
+				<p>
+					<p:outputLabel for="name" value="Volledige naam (bv. T.T.C. Meteor Bree)"/><br/>
+					<p:inputText id="name" value="#{clubBean.club.name}" required="true" size="20"/>
+				</p>
+				<p>
+					<p:outputLabel for="building" value="Gebouw (bv. Wijkschool)"/><br/>
+					<p:inputText id="building" value="#{clubBean.club.address.name}" size="30"/>
+				</p>
+				<p>
+					<p:outputLabel for="street" value="Straat (bv. Daalstraat 24)"/><br/>
+					<p:inputText id="street" value="#{clubBean.club.address.street}" size="30"/>
+				</p>
+				<p>
+					<p:outputLabel for="postalCode" value="Postcode (bv. 3620)"/><br/>
+					<p:inputText id="postalCode" value="#{clubBean.club.address.postalCode}" size="5"/>
+				</p>
+				<p>
+					<p:outputLabel for="place" value="Plaats (bv. Lanaken)"/><br/>
+					<p:inputText id="place" value="#{clubBean.club.address.place}" size="20"/>
+				</p>
+				<p>
+					<p:outputLabel for="phone" value="Telefoonnummer (bv. 089/45.67.89)"/><br/>
+					<p:inputText id="phone" value="#{clubBean.club.phone}" size="14"/>
+				</p>
+				<p>
+					<p:commandButton value="Opslaan" action="#{clubBean.save}" ajax="false" update="messages"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
