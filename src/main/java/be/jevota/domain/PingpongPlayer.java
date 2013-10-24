@@ -224,9 +224,10 @@ public class PingpongPlayer implements Markeable {
 
 	@Override
 	public String toString() {
-		return getFullName();
+		String format = memberNo == null || memberNo == 0 ? "[%s] %s" : "[%s] %s (%s)";
+		return String.format(format, ranking, getFullName(), memberNo);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
