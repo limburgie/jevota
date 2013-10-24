@@ -101,6 +101,7 @@ public class LineupBean implements Serializable {
 	
 	public void removePlayerFromLineup(long lineupId) {
 		GameLineup lineup = lineupService.getLineup(lineupId);
+		lineup.setSendDate(null);
 		lineup.getPlayers().remove(playerService.getPlayer(playerId));
 		lineupService.saveLineup(lineup);
 		clear();

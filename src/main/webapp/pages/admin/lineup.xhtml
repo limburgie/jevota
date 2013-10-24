@@ -59,9 +59,16 @@
 											</p:commandLink>
 										</p:column>
 									</p:dataTable>
-									<h:panelGroup rendered="#{lineup.complete}">
+									<h:panelGroup rendered="#{lineup.complete and !lineup.game.inPast}">
 										<p>
-											<p:commandButton value="Mail sturen" action="#{lineupBean.notifyPlayers(lineup.id)}"/>
+											<p:commandButton value="Mail sturen" action="#{lineupBean.notifyPlayers(lineup.id)}" update="send-date"/>
+										</p>
+									</h:panelGroup>
+									<h:panelGroup rendered="#{lineup.sent}" id="send-date">
+										<p>
+											<h:outputText value="#{lineup.sendDate}" styleClass="small-grey">
+												<f:convertDateTime pattern="'Laatst verstuurd op' d/M"/>
+											</h:outputText>
 										</p>
 									</h:panelGroup>
 								</h:panelGroup>

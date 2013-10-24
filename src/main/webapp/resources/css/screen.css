@@ -365,3 +365,8 @@ select.ui-column-filter {
 	right: 20px;
 	bottom: 40px;
 }
+
+.small-grey {
+	font-size: 85%;
+	color: #bbb;
+}

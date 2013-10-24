@@ -2,6 +2,7 @@ package be.jevota.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -77,6 +78,7 @@ public class LineupServiceImpl implements LineupService {
 		return repo.findOne(lineupId);
 	}
 
+	@Transactional
 	public void notifyPlayers(long lineupId) throws InvalidEmailException {
 		GameLineup lineup = getLineup(lineupId);
 		PingpongGame game = lineup.getGame();
@@ -93,6 +95,12 @@ public class LineupServiceImpl implements LineupService {
 				+ homeClub.getAddress().getFullAddress("\n") + "\n\n"
 				+ "Graag een seintje als dit niet voor je lukt.\n\n" + "T.T.C. Jevota Lanaken";
 		mailService.sendEmail(players, cc, title, body, true);
+		updateLineupDate(lineup);
+	}
+
+	private void updateLineupDate(GameLineup lineup) {
+		lineup.setSendDate(new Date());
+		saveLineup(lineup);
 	}
 
 }

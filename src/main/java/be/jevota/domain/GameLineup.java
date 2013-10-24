@@ -3,6 +3,7 @@ package be.jevota.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +28,13 @@ public class GameLineup {
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	private Set<PingpongPlayer> players;
+	
+	private Date sendDate;
 
+	public boolean isSent() {
+		return sendDate != null;
+	}
+	
 	public boolean isComplete() {
 		return players != null && players.size() == getTeamSize();
 	}
@@ -72,6 +79,14 @@ public class GameLineup {
 		this.players = players;
 	}
 	
+	public Date getSendDate() {
+		return sendDate;
+	}
+
+	public void setSendDate(Date sendDate) {
+		this.sendDate = sendDate;
+	}
+
 	public List<PingpongPlayer> getPlayerList() {
 		List<PingpongPlayer> result = new ArrayList<PingpongPlayer>(players);
 		Collections.sort(result, new Comparator<PingpongPlayer>() {
