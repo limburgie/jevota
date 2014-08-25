@@ -23,7 +23,10 @@
 						<ui:include src="../includes/tweet-button.xhtml"/>
 						<ui:include src="../includes/like-button.xhtml"/>
 					</div>
-					<h1>#{msg.site_title}</h1>
+					<h1>
+						<p:graphicImage library="img" name="jevota-alpha-white-small.png"/>
+						#{msg.site_title}
+					</h1>
 					<ul id="nav">
 						<li><h:link value="Home" outcome="/pages/home"/></li>
 						<li><h:link value="Nieuws" outcome="/pages/news"/></li>

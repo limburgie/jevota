@@ -99,6 +99,11 @@ h3 {
 	color: #555;
 }
 
+h1 img {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
 #nav {
 	position: absolute;
 	bottom: 0px;
