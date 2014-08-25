@@ -24,7 +24,9 @@
 		<property name="persistenceUnitName" value="jevota" />
 		<property name="persistenceUnitManager" ref="pum" />
 		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
+			</bean>
 		</property>
 	</bean>
 
