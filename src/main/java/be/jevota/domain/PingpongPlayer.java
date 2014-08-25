@@ -1,28 +1,15 @@
 package be.jevota.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-
+import be.jevota.domain.interfaces.Markeable;
+import be.jevota.domain.type.Ranking;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import be.jevota.domain.interfaces.Markeable;
-import be.jevota.domain.type.Ranking;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class PingpongPlayer implements Markeable {
@@ -43,6 +30,8 @@ public class PingpongPlayer implements Markeable {
 	@Column(unique = true) private Integer memberNo;
 
 	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "phone_numbers", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "phoneNumber") private List<String> phoneNumbers;
+
+	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "player_unavailabilities", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "unavailableDay") private List<Date> unavailableDays;
 
 	@Column(unique = true) private String emailAddress;
 	private String password;
@@ -109,6 +98,14 @@ public class PingpongPlayer implements Markeable {
 
 	public void setPhoneNumbers(List<String> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
+	}
+
+	public List<Date> getUnavailableDays() {
+		return unavailableDays;
+	}
+
+	public void setUnavailableDays(List<Date> unavailableDays) {
+		this.unavailableDays = unavailableDays;
 	}
 
 	public String getEmailAddress() {
