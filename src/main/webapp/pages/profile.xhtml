@@ -12,7 +12,7 @@
 				<h:panelGroup rendered="#{loginBean.loggedIn}">
 					<h2>Profiel aanpassen</h2>
 					<p:tabView>
-						<p:tab title="Persoonlijke gegevens">
+						<p:tab title="Gegevens">
 							<h:form>
 								<p:messages id="messages"/>
 								<p:focus for="emailAddress"/>
@@ -47,7 +47,7 @@
 								</p>
 							</h:form>
 						</p:tab>
-						<p:tab title="Wachtwoord aanpassen">
+						<p:tab title="Nieuw wachtwoord">
 							<h:form>
 								<p:messages id="messages"/>
 								<p>
@@ -67,6 +67,26 @@
 								<p>
 									<p:commandButton value="Opslaan" action="#{profileBean.updatePassword}" update="messages"/>
 								</p>
+							</h:form>
+						</p:tab>
+						<p:tab title="Onbeschikbaarheden">
+							<h:form>
+								<p:messages id="messages"/>
+								<p>
+									<p:outputLabel for="date" value="Datum"/><br/>
+									<p:calendar id="date" value="#{profileBean.unavailableDay}" pattern="#{msg.date_format}" required="true"
+												navigator="true" size="15" readonlyInput="true" locale="#{constantsBean.locale}"/>
+								</p>
+								<p>
+									<p:commandButton value="Toevoegen" action="#{profileBean.addUnavailableDay}" update="@form"/>
+								</p>
+								<p:dataTable value="#{loginBean.player.unavailableDays}" var="day" sortBy="#{day}" sortOrder="descending">
+									<p:column headerText="Day">
+										<h:outputText value="#{day}">
+											<f:convertDateTime pattern="#{msg.date_format_unavailabilities}"/>
+										</h:outputText>
+									</p:column>
+								</p:dataTable>
 							</h:form>
 						</p:tab>
 					</p:tabView>
