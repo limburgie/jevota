@@ -57,6 +57,10 @@ div.clear {
 	margin: 15px 0 0;
 }
 
+.nobr {
+	white-space: nowrap;
+}
+
 li { /*list-style-type: circle;*/
 	
 }

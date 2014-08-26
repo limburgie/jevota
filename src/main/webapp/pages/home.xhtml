@@ -12,7 +12,7 @@
 					<p:dataTable id="news" value="#{newsBean.latestItems}" var="item" rows="5"
 						selection="#{newsBean.item}" selectionMode="single" rowKey="#{item.id}">
 						<p:ajax event="rowSelect" listener="#{newsBean.toItem}"/>
-						<p:column headerText="Datum">
+						<p:column headerText="Datum" styleClass="nobr">
 							<h:outputText value="#{item.createDate}">
 								<f:convertDateTime pattern="#{msg.date_format}"/>
 							</h:outputText>
@@ -20,7 +20,7 @@
 						<p:column headerText="Onderwerp">
 							#{item.title}
 						</p:column>
-						<p:column headerText="Auteur">
+						<p:column headerText="Auteur" styleClass="nobr">
 							<h:outputText value="#{item.initialAuthor.fullName}"/>
 						</p:column>
 					</p:dataTable>
