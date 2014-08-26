@@ -51,7 +51,8 @@
 									</h:panelGrid>
 									<p:dataTable id="lineupPlayers" rendered="#{!empty lineup.playerList}" value="#{lineup.playerList}" var="player" styleClass="noHeader grayTable">
 										<p:column>
-											<h:outputText value="#{player.ranking} - #{player.shortName}"/>
+											<h:outputText value="#{player.ranking} - #{player.shortName}" styleClass="#{player.isUnavailableOn(lineup.game.date)?'unavailable':''}"
+													title="#{player.isUnavailableOn(lineup.game.date)?'Speler is niet beschikbaar op deze dag':''}"/>
 										</p:column>
 										<p:column>
 											<p:commandLink value="X" action="#{lineupBean.removePlayerFromLineup(lineup.id)}" update="@form" onsuccess="playerList.clearFilters()">

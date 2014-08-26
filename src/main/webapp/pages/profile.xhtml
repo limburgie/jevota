@@ -11,8 +11,8 @@
 			<div class="block">
 				<h:panelGroup rendered="#{loginBean.loggedIn}">
 					<h2>Profiel aanpassen</h2>
-					<p:tabView>
-						<p:tab title="Persoonlijke gegevens">
+					<p:tabView id="profile-tabs">
+						<p:tab title="Gegevens">
 							<h:form>
 								<p:messages id="messages"/>
 								<p:focus for="emailAddress"/>
@@ -47,7 +47,7 @@
 								</p>
 							</h:form>
 						</p:tab>
-						<p:tab title="Wachtwoord aanpassen">
+						<p:tab title="Nieuw wachtwoord">
 							<h:form>
 								<p:messages id="messages"/>
 								<p>
@@ -67,6 +67,32 @@
 								<p>
 									<p:commandButton value="Opslaan" action="#{profileBean.updatePassword}" update="messages"/>
 								</p>
+							</h:form>
+						</p:tab>
+						<p:tab title="Onbeschikbaarheden">
+							<h:form id="unavailability-form">
+								<p:messages id="messages"/>
+								<p>
+									Duid een dag aan waarop je niet kan spelen en klik op Toevoegen.
+									Alle toekomstige dagen waarop je niet kan spelen worden hieronder ook opgelijst. Klik op
+									verwijderen om dagen uit deze lijst te wissen.
+								</p>
+								<p:calendar id="date" value="#{profileBean.unavailableDay}" required="true" mode="inline"/>
+								<p>
+									<p:commandButton value="Toevoegen" action="#{profileBean.addUnavailableDay}" update="@form :profile-tabs:unavailability-table"/>
+								</p>
+							</h:form>
+							<h:form id="unavailability-table">
+								<p:dataTable value="#{loginBean.player.unavailableDaysList}" var="day">
+									<p:column headerText="Onbeschikbare dagen vanaf vandaag">
+										<h:outputText value="#{day}">
+											<f:convertDateTime pattern="#{msg.date_format_unavailabilities}"/>
+										</h:outputText>
+									</p:column>
+									<p:column>
+										<p:commandButton icon="ui-icon ui-icon-trash" value="Verwijderen" action="#{profileBean.deleteUnavailableDay(day)}" update="@form :profile-tabs:unavailability-form:messages"/>
+									</p:column>
+								</p:dataTable>
 							</h:form>
 						</p:tab>
 					</p:tabView>
