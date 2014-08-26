@@ -4,12 +4,11 @@ import be.jevota.domain.interfaces.Markeable;
 import be.jevota.domain.type.Ranking;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class PingpongPlayer implements Markeable {
@@ -31,7 +30,7 @@ public class PingpongPlayer implements Markeable {
 
 	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "phone_numbers", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "phoneNumber") private List<String> phoneNumbers;
 
-	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "player_unavailabilities", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "unavailableDay") private List<Date> unavailableDays;
+	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "player_unavailabilities", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "unavailableDay") private Set<Date> unavailableDays = new TreeSet<Date>();
 
 	@Column(unique = true) private String emailAddress;
 	private String password;
@@ -100,11 +99,23 @@ public class PingpongPlayer implements Markeable {
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	public List<Date> getUnavailableDays() {
+	public Set<Date> getUnavailableDays() {
 		return unavailableDays;
 	}
 
-	public void setUnavailableDays(List<Date> unavailableDays) {
+	public List<Date> getUnavailableDaysList() {
+		Date fromDate = new DateTime().minusDays(1).toDate();
+		List<Date> daysList = new ArrayList<Date>();
+		for(Date date : unavailableDays) {
+			if (date.after(fromDate)) {
+				daysList.add(date);
+			}
+		}
+		Collections.sort(daysList);
+		return daysList;
+	}
+
+	public void setUnavailableDays(Set<Date> unavailableDays) {
 		this.unavailableDays = unavailableDays;
 	}
 

@@ -5,6 +5,7 @@ import be.jevota.faces.FacesUtil;
 import be.jevota.service.PlayerService;
 import be.jevota.service.exception.InvalidEmailException;
 import be.jevota.service.exception.InvalidPasswordUpdateException;
+import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 
 import javax.inject.Inject;
@@ -55,10 +56,24 @@ public class ProfileBean implements Serializable {
 	}
 
 	public void addUnavailableDay() {
+		if (unavailableDay.before(new Date())) {
+			FacesUtil.error("Je kan geen dag in het verleden toevoegen.");
+			return;
+		}
+		Date noonDate = new DateTime(unavailableDay).withHourOfDay(12).toDate();
 		PingpongPlayer player = loginBean.getPlayer();
-		player.getUnavailableDays().add(unavailableDay);
+		player.getUnavailableDays().add(noonDate);
 		playerService.savePlayer(player);
+		unavailableDay = null;
 		FacesUtil.info("Onbeschikbare dag werd succesvol toegevoegd!");
+	}
+
+	public void deleteUnavailableDay(Date day) {
+		Date noonDate = new DateTime(day).withHourOfDay(12).toDate();
+		PingpongPlayer player = loginBean.getPlayer();
+		player.getUnavailableDays().remove(day);
+		playerService.savePlayer(player);
+		FacesUtil.info("Onbeschikbare dag werd succesvol verwijderd!");
 	}
 
 	public String getOldPassword() {

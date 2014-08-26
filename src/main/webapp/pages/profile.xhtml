@@ -11,7 +11,7 @@
 			<div class="block">
 				<h:panelGroup rendered="#{loginBean.loggedIn}">
 					<h2>Profiel aanpassen</h2>
-					<p:tabView>
+					<p:tabView id="profile-tabs">
 						<p:tab title="Gegevens">
 							<h:form>
 								<p:messages id="messages"/>
@@ -70,21 +70,27 @@
 							</h:form>
 						</p:tab>
 						<p:tab title="Onbeschikbaarheden">
-							<h:form>
+							<h:form id="unavailability-form">
 								<p:messages id="messages"/>
 								<p>
-									<p:outputLabel for="date" value="Datum"/><br/>
-									<p:calendar id="date" value="#{profileBean.unavailableDay}" pattern="#{msg.date_format}" required="true"
-												navigator="true" size="15" readonlyInput="true" locale="#{constantsBean.locale}"/>
+									Duid een dag aan waarop je niet kan spelen en klik op Toevoegen.
+									Alle toekomstige dagen waarop je niet kan spelen worden hieronder ook opgelijst. Klik op
+									verwijderen om dagen uit deze lijst te wissen.
 								</p>
+								<p:calendar id="date" value="#{profileBean.unavailableDay}" required="true" mode="inline"/>
 								<p>
-									<p:commandButton value="Toevoegen" action="#{profileBean.addUnavailableDay}" update="@form"/>
+									<p:commandButton value="Toevoegen" action="#{profileBean.addUnavailableDay}" update="@form :profile-tabs:unavailability-table"/>
 								</p>
-								<p:dataTable value="#{loginBean.player.unavailableDays}" var="day" sortBy="#{day}" sortOrder="descending">
-									<p:column headerText="Day">
+							</h:form>
+							<h:form id="unavailability-table">
+								<p:dataTable value="#{loginBean.player.unavailableDaysList}" var="day">
+									<p:column headerText="Onbeschikbare dagen vanaf vandaag">
 										<h:outputText value="#{day}">
 											<f:convertDateTime pattern="#{msg.date_format_unavailabilities}"/>
 										</h:outputText>
+									</p:column>
+									<p:column>
+										<p:commandButton icon="ui-icon ui-icon-trash" value="Verwijderen" action="#{profileBean.deleteUnavailableDay(day)}" update="@form :profile-tabs:unavailability-form:messages"/>
 									</p:column>
 								</p:dataTable>
 							</h:form>
