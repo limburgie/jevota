@@ -347,6 +347,11 @@ div.draggable tbody td > div {
 	background: #f8f8f8;
 }
 
+.grayTable .unavailable {
+	font-weight: bold;
+	color: #cc0000;
+}
+
 table.x-columns {
 	width: 100%;
 }

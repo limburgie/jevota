@@ -115,6 +115,11 @@ public class PingpongPlayer implements Markeable {
 		return daysList;
 	}
 
+	public boolean isUnavailableOn(Date date) {
+		Date noonDate = new DateTime(date).withHourOfDay(12).withMinuteOfHour(0).toDate();
+		return unavailableDays.contains(noonDate);
+	}
+
 	public void setUnavailableDays(Set<Date> unavailableDays) {
 		this.unavailableDays = unavailableDays;
 	}
