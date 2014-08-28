@@ -1,5 +1,8 @@
 package be.jevota.domain;
 
+import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -35,12 +38,21 @@ public class NewsItem {
 		return title;
 	}
 
+	public String getTitleShortened(int length) {
+		return StringUtils.abbreviate(title, length);
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	public String getBody() {
 		return body;
+	}
+
+	public String getBodyShortened(int length) {
+		String stripped = Jsoup.parse(body).text();
+		return StringUtils.abbreviate(stripped, length);
 	}
 
 	public void setBody(String body) {
