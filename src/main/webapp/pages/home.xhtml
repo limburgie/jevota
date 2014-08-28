@@ -27,7 +27,7 @@
 							<div class="clear"></div>
 						</h:link>
 					</h:panelGroup>
-					<h:panelGroup styleClass="news-secundary" layout="block" rendered="#{i.index > 0}">
+					<h:panelGroup styleClass="news-secundary news-item-#{i.index}" layout="block" rendered="#{i.index > 0}">
 						<h:link outcome="/pages/news.jsf">
 							<f:param name="itemId" value="#{item.id}"/>
 							<h3>#{item.getTitleShortened(50)}</h3>
