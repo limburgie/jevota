@@ -21,6 +21,10 @@
 					<p:editor id="body" value="#{newsBean.item.body}" required="true" controls="bold italic bullets numbering image link unlink source"/>
 				</p>
 				<p>
+					<p:outputLabel for="imageUrl" value="Afbeelding (Externe URL)"/><br/>
+					<p:inputText id="imageUrl" value="#{newsBean.item.imageUrl}" size="40"/>
+				</p>
+				<p>
 					<p:commandButton value="Opslaan" action="#{newsBean.save}" ajax="false" update="messages"/>
 				</p>
 			</h:form>

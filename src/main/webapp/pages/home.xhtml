@@ -7,24 +7,47 @@
 		<ui:define name="title">Home</ui:define>
 		<ui:define name="left-col">
 			<div class="block">
-				<h2>Laatste nieuws</h2>
-				<h:form>
-					<p:dataTable id="news" value="#{newsBean.latestItems}" var="item" rows="5"
-						selection="#{newsBean.item}" selectionMode="single" rowKey="#{item.id}">
-						<p:ajax event="rowSelect" listener="#{newsBean.toItem}"/>
-						<p:column headerText="Datum" styleClass="nobr">
-							<h:outputText value="#{item.createDate}">
-								<f:convertDateTime pattern="#{msg.date_format}"/>
-							</h:outputText>
-						</p:column>
-						<p:column headerText="Onderwerp">
-							#{item.title}
-						</p:column>
-						<p:column headerText="Auteur" styleClass="nobr">
-							<h:outputText value="#{item.initialAuthor.fullName}"/>
-						</p:column>
-					</p:dataTable>
-				</h:form>
+				<ui:repeat value="#{newsBean.latestItems}" var="item" size="3" varStatus="i">
+					<h:panelGroup styleClass="news-primary" layout="block" rendered="#{i.index == 0}">
+						<h:link outcome="/pages/news.jsf">
+							<f:param name="itemId" value="#{item.id}"/>
+							<h:graphicImage value="#{item.imageUrl}" styleClass="news-img-large" rendered="#{!empty item.imageUrl}"/>
+							<div>
+								<h2>#{item.title}</h2>
+								<p class="news-body">
+									#{item.getBodyShortened(empty item.imageUrl ? 200 : 150)}
+								</p>
+								<p class="small-grey">
+									<h:outputText value="#{item.createDate}">
+										<f:convertDateTime pattern="#{msg.date_format}"/>
+									</h:outputText>
+									<h:outputText styleClass="float-right" value="#{item.initialAuthor.fullName}"/>
+								</p>
+							</div>
+							<div class="clear"></div>
+						</h:link>
+					</h:panelGroup>
+					<h:panelGroup styleClass="news-secundary news-item-#{i.index}" layout="block" rendered="#{i.index > 0}">
+						<h:link outcome="/pages/news.jsf">
+							<f:param name="itemId" value="#{item.id}"/>
+							<h3>#{item.getTitleShortened(50)}</h3>
+							<h:graphicImage value="#{item.imageUrl}" styleClass="news-img-small" rendered="#{!empty item.imageUrl}"/>
+							<div>
+								<p>
+									#{item.getBodyShortened(empty item.imageUrl ? 150 : 100)}
+								</p>
+								<p class="small-grey">
+									<h:outputText value="#{item.createDate}">
+										<f:convertDateTime pattern="#{msg.date_format}"/>
+									</h:outputText>
+									<h:outputText styleClass="float-right" value="#{item.initialAuthor.fullName}"/>
+								</p>
+							</div>
+							<div class="clear"></div>
+						</h:link>
+					</h:panelGroup>
+				</ui:repeat>
+				<div class="clear"></div>
 			</div>
 			<div class="block">
 				<h:form id="gamesForm">

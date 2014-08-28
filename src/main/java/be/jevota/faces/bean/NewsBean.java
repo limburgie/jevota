@@ -1,18 +1,16 @@
 package be.jevota.faces.bean;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
+import be.jevota.domain.NewsItem;
+import be.jevota.faces.FacesUtil;
+import be.jevota.service.NewsItemService;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.springframework.context.annotation.Scope;
-
-import be.jevota.domain.NewsItem;
-import be.jevota.faces.FacesUtil;
-import be.jevota.service.NewsItemService;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 @Named @Scope("view")
 public class NewsBean implements Serializable {
@@ -62,10 +60,6 @@ public class NewsBean implements Serializable {
 			latestItems = newsService.getLatestItems(NB_LATEST_ITEMS);
 		}
 		return latestItems;
-	}
-	
-	public void toItem() {
-		FacesUtil.redirect("/pages/news.jsf?itemId="+item.getId());
 	}
 	
 	public String save() {

@@ -1,12 +1,10 @@
 package be.jevota.domain;
 
-import java.util.Date;
+import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class NewsItem {
@@ -19,6 +17,8 @@ public class NewsItem {
 
 	private Date createDate;
 	private Date modifiedDate;
+
+	private String imageUrl;
 
 	@OneToOne
 	private PingpongPlayer initialAuthor;
@@ -38,12 +38,21 @@ public class NewsItem {
 		return title;
 	}
 
+	public String getTitleShortened(int length) {
+		return StringUtils.abbreviate(title, length);
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	public String getBody() {
 		return body;
+	}
+
+	public String getBodyShortened(int length) {
+		String stripped = Jsoup.parse(body).text();
+		return StringUtils.abbreviate(stripped, length);
 	}
 
 	public void setBody(String body) {
@@ -56,6 +65,14 @@ public class NewsItem {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Date getModifiedDate() {

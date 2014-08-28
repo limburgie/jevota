@@ -11,6 +11,9 @@
 					</p:button>
 				</p>
 				<p:dataTable value="#{newsBean.items}" var="item">
+					<p:column>
+						<h:graphicImage value="#{item.imageUrl}" height="27"/>
+					</p:column>
 					<p:column headerText="Titel" sortBy="#{item.title}">
 						#{item.title}
 					</p:column>
