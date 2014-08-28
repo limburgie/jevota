@@ -1,12 +1,7 @@
 package be.jevota.domain;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 
 @Entity
 public class NewsItem {
@@ -19,6 +14,8 @@ public class NewsItem {
 
 	private Date createDate;
 	private Date modifiedDate;
+
+	private String imageUrl;
 
 	@OneToOne
 	private PingpongPlayer initialAuthor;
@@ -56,6 +53,14 @@ public class NewsItem {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Date getModifiedDate() {
