@@ -16,6 +16,7 @@ import java.util.List;
 public class EventBean implements Serializable {
 
 	@Inject private EventService eventService;
+	@Inject private AccountBean accountBean;
 
 	private Event event;
 	private List<Event> events;
@@ -50,6 +51,9 @@ public class EventBean implements Serializable {
 	}
 
 	public String save() {
+		if(!accountBean.isEventMgr()) {
+			return FacesUtil.unauthorizedError();
+		}
 		eventService.saveEvent(event);
 		FacesUtil.info("Evenement werd succesvol opgeslagen!");
 		return redirect;
