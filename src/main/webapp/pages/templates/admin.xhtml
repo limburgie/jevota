@@ -1,8 +1,7 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:composition template="main.xhtml">
 		<ui:define name="title"><ui:insert name="subtitle"/> | Controlepaneel | #{msg.site_title}</ui:define>
 		<ui:define name="body">
@@ -10,6 +9,9 @@
 				<ul id="subnav">
 					<h:panelGroup rendered="#{accountBean.newsMgr}">
 						<li><h:link value="Nieuws" outcome="/pages/admin/news"/></li>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{accountBean.newsMgr}">
+						<li><h:link value="Evenementen" outcome="/pages/admin/events"/></li>
 					</h:panelGroup>
 					<h:panelGroup rendered="#{accountBean.playerMgr}">
 						<li><h:link value="Spelers" outcome="/pages/admin/players"/></li>

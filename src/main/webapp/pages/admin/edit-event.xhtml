@@ -1,0 +1,34 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			<h:outputText rendered="#{eventBean.newEvent}" value="Nieuw evenement"/>
+			<h:outputText rendered="#{!eventBean.newEvent}" value="Evenement aanpassen"/>
+		</ui:define>
+		<ui:define name="main">
+			<p:messages id="messages"/>
+			<h:form>
+				<p:focus for="title"/>
+				<p>
+					<p:outputLabel for="title" value="Titel"/><br/>
+					<p:inputText id="title" value="#{eventBean.event.title}" required="true" size="30"/>
+				</p>
+				<p>
+					<p:outputLabel for="date" value="Datum"/><br/>
+					<p:calendar id="date" value="#{eventBean.event.date}" pattern="#{msg.date_format}" required="true"
+								stepMinute="30" navigator="true" size="10"/>
+				</p>
+				<p>
+					<p:outputLabel for="body" value="Tekst"/><br/>
+					<p:editor id="body" value="#{eventBean.event.description}" required="true" controls="bold italic bullets numbering image link unlink source"/>
+				</p>
+				<p>
+					<p:commandButton value="Opslaan" action="#{eventBean.save}" ajax="false" update="messages"/>
+				</p>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
