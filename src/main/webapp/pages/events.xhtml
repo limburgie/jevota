@@ -7,7 +7,7 @@
 		<ui:define name="title">Evenementen</ui:define>
 		<ui:define name="left-col">
 			<div class="block">
-				<h:panelGroup rendered="#{!empty eventBean.upcomingEvents}">
+				<h:panelGroup rendered="#{empty eventBean.upcomingEvents}">
 					<p>Er zijn momenteel geen evenementen gepland!</p>
 				</h:panelGroup>
 				<ui:repeat value="#{eventBean.upcomingEvents}" var="event">
@@ -21,10 +21,10 @@
 							</h:outputText>
 						</h:panelGroup>
 						<h2>#{event.title}</h2>
+						<h:outputText value="#{event.description}" escape="false"/>
 						<h:panelGroup rendered="#{!empty event.location}">
 							<p>Locatie: #{event.location}</p>
 						</h:panelGroup>
-						<h:outputText value="#{event.description}" escape="false"/>
 						<h:panelGroup rendered="#{accountBean.eventMgr}">
 							<p>
 								<p:button value="Aanpassen" outcome="/pages/admin/edit-event">

@@ -311,6 +311,7 @@ h1 img {
 	display: block;
 	font-size: 1.3em;
 	text-align: center;
+	text-transform: uppercase;
 }
 
 .event-day {

@@ -17,6 +17,10 @@
 					<p:inputText id="title" value="#{eventBean.event.title}" required="true" size="30"/>
 				</p>
 				<p>
+					<p:outputLabel for="location" value="Locatie"/><br/>
+					<p:inputText id="location" value="#{eventBean.event.location}" size="20"/>
+				</p>
+				<p>
 					<p:outputLabel for="date" value="Datum"/><br/>
 					<p:calendar id="date" value="#{eventBean.event.date}" pattern="#{msg.date_format}" required="true"
 								stepMinute="30" navigator="true" size="10"/>
