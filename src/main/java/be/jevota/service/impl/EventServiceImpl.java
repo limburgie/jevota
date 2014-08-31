@@ -3,6 +3,7 @@ package be.jevota.service.impl;
 import be.jevota.domain.Event;
 import be.jevota.repository.EventRepository;
 import be.jevota.service.EventService;
+import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -20,6 +21,10 @@ public class EventServiceImpl implements EventService {
 
 	public List<Event> getAllEvents() {
 		return repository.getAllEvents();
+	}
+
+	public List<Event> getUpcomingEvents() {
+		return repository.getEventsFromDate(new DateTime().minusDays(1).toDate());
 	}
 
 	@Transactional

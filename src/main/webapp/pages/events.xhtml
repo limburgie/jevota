@@ -7,7 +7,10 @@
 		<ui:define name="title">Evenementen</ui:define>
 		<ui:define name="left-col">
 			<div class="block">
-				<ui:repeat value="#{eventBean.events}" var="event">
+				<h:panelGroup rendered="#{!empty eventBean.upcomingEvents}">
+					<p>Er zijn momenteel geen evenementen gepland!</p>
+				</h:panelGroup>
+				<ui:repeat value="#{eventBean.upcomingEvents}" var="event">
 					<div class="event-detail">
 						<h:panelGroup layout="block" styleClass="event-date">
 							<h:outputText value="#{event.date}" styleClass="event-day">

@@ -20,6 +20,7 @@ public class EventBean implements Serializable {
 
 	private Event event;
 	private List<Event> events;
+	private List<Event> upcomingEvents;
 	private String redirect;
 
 	@PostConstruct
@@ -41,13 +42,20 @@ public class EventBean implements Serializable {
 	}
 
 	public List<Event> getEvents() {
-		if(!isNewEvent()) {
-			return Collections.singletonList(event);
-		}
 		if(events == null) {
 			events = eventService.getAllEvents();
 		}
 		return events;
+	}
+
+	public List<Event> getUpcomingEvents() {
+		if(!isNewEvent()) {
+			return Collections.singletonList(event);
+		}
+		if (upcomingEvents == null) {
+			upcomingEvents = eventService.getUpcomingEvents();
+		}
+		return upcomingEvents;
 	}
 
 	public String save() {
