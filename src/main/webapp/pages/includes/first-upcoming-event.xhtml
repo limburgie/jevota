@@ -1,0 +1,19 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core">
+
+		<h:panelGroup layout="block" styleClass="block" rendered="#{!empty eventBean.firstUpcomingEvent}">
+			<h2>Volgend event</h2>
+			<h:link outcome="/pages/events.jsf">
+				<f:param name="eventId" value="#{eventBean.firstUpcomingEvent.id}"/>
+				<div class="event-single">
+					<h:panelGroup layout="block" styleClass="event-date">
+						<h:outputText value="#{eventBean.firstUpcomingEvent.date}">
+							<f:convertDateTime pattern="d MMM"/>
+						</h:outputText>
+					</h:panelGroup>
+					#{eventBean.firstUpcomingEvent.title}
+				</div>
+			</h:link>
+		</h:panelGroup>
+</f:view>

@@ -326,6 +326,19 @@ h1 img {
 	border-bottom: 1px solid #ddd;
 }
 
+h3.event-title {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.event-single .event-month {
+	font-size: 1.1em;
+}
+
+.event-single .event-day {
+	font-size: 1.7em;
+}
+
 
 
 /* CONTACT */

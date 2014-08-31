@@ -23,7 +23,7 @@
 						<h2>#{event.title}</h2>
 						<h:outputText value="#{event.description}" escape="false"/>
 						<h:panelGroup rendered="#{!empty event.location}">
-							<p>Locatie: #{event.location}</p>
+							<p><strong>Locatie:</strong> #{event.location}</p>
 						</h:panelGroup>
 						<h:panelGroup rendered="#{accountBean.eventMgr}">
 							<p>

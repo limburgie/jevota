@@ -19,6 +19,7 @@ public class EventBean implements Serializable {
 	@Inject private AccountBean accountBean;
 
 	private Event event;
+	private Event firstUpcomingEvent;
 	private List<Event> events;
 	private List<Event> upcomingEvents;
 	private String redirect;
@@ -56,6 +57,13 @@ public class EventBean implements Serializable {
 			upcomingEvents = eventService.getUpcomingEvents();
 		}
 		return upcomingEvents;
+	}
+
+	public Event getFirstUpcomingEvent() {
+		if (firstUpcomingEvent == null) {
+			firstUpcomingEvent = eventService.getFirstUpcomingEvent();
+		}
+		return firstUpcomingEvent;
 	}
 
 	public String save() {
