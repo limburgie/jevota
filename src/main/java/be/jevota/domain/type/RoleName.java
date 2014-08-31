@@ -4,6 +4,7 @@ public enum RoleName {
 
 	ADMINISTRATOR("Administrator"),
 	NEWS_MANAGER("News Editor"),
+	EVENT_MANAGER("Event Manager"),
 	PLAYER_MANAGER("Player Manager"),
 	CLUB_MANAGER("Club Manager"),
 	GAME_MANAGER("Game Manager"),

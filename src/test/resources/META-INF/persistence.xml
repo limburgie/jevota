@@ -6,6 +6,7 @@
 	<persistence-unit name="jevota.test" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>be.jevota.domain.NewsItem</class>
+		<class>be.jevota.domain.Event</class>
 		<class>be.jevota.domain.PingpongClub</class>
 		<class>be.jevota.domain.PingpongGame</class>
 		<class>be.jevota.domain.PingpongPlayer</class>

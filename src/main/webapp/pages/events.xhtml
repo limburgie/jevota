@@ -1,0 +1,41 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="templates/front.xhtml">
+		<ui:define name="title">Evenementen</ui:define>
+		<ui:define name="left-col">
+			<div class="block">
+				<h:panelGroup rendered="#{empty eventBean.upcomingEvents}">
+					<p>Er zijn momenteel geen evenementen gepland!</p>
+				</h:panelGroup>
+				<ui:repeat value="#{eventBean.upcomingEvents}" var="event">
+					<div class="event-detail">
+						<h:panelGroup layout="block" styleClass="event-date">
+							<h:outputText value="#{event.date}" styleClass="event-day">
+								<f:convertDateTime pattern="d"/>
+							</h:outputText>
+							<h:outputText value="#{event.date}" styleClass="event-month">
+								<f:convertDateTime pattern="MMM"/>
+							</h:outputText>
+						</h:panelGroup>
+						<h2>#{event.title}</h2>
+						<h:outputText value="#{event.description}" escape="false"/>
+						<h:panelGroup rendered="#{!empty event.location}">
+							<p><strong>Locatie:</strong> #{event.location}</p>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{accountBean.eventMgr}">
+							<p>
+								<p:button value="Aanpassen" outcome="/pages/admin/edit-event">
+									<f:param name="eventId" value="#{event.id}"/>
+									<f:param name="redirect" value="/pages/events.xhtml?faces-redirect=true"/>
+								</p:button>
+							</p>
+						</h:panelGroup>
+					</div>
+				</ui:repeat>
+			</div>
+		</ui:define>
+	</ui:composition>
+</f:view>

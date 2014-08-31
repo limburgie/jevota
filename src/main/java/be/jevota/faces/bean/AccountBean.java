@@ -1,17 +1,15 @@
 package be.jevota.faces.bean;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.springframework.context.annotation.Scope;
-
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.domain.type.RoleName;
 import be.jevota.service.RoleService;
+import org.springframework.context.annotation.Scope;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Named @Scope("session")
 public class AccountBean implements Serializable {
@@ -44,6 +42,10 @@ public class AccountBean implements Serializable {
 		return hasRole(RoleName.NEWS_MANAGER);
 	}
 
+	public boolean isEventMgr() {
+		return hasRole(RoleName.EVENT_MANAGER);
+	}
+
 	public boolean isGameMgr() {
 		return hasRole(RoleName.GAME_MANAGER);
 	}
@@ -72,5 +74,5 @@ public class AccountBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 }

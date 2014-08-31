@@ -297,6 +297,48 @@ h1 img {
 	color: #333 !important;
 }
 
+/* Events */
+
+.event-date {
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #999;
+}
+
+.event-month {
+	display: block;
+	font-size: 1.3em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.event-day {
+	display: block;
+	font-size: 2em;
+	text-align: center;
+}
+
+.event-detail {
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	border-bottom: 1px solid #ddd;
+}
+
+h3.event-title {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.event-single .event-month {
+	font-size: 1.1em;
+}
+
+.event-single .event-day {
+	font-size: 1.7em;
+}
+
 
 
 /* CONTACT */
