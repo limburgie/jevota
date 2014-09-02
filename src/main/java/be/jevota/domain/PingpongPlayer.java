@@ -30,7 +30,7 @@ public class PingpongPlayer implements Markeable {
 
 	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "phone_numbers", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "phoneNumber") private List<String> phoneNumbers;
 
-	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "player_unavailabilities", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "unavailableDay") private Set<Date> unavailableDays = new TreeSet<Date>();
+	@LazyCollection(LazyCollectionOption.FALSE) @ElementCollection @CollectionTable(name = "player_unavailabilities", joinColumns = @JoinColumn(name = "playerId")) @Column(name = "unavailableDay") private Set<Date> unavailableDays;
 
 	@Column(unique = true) private String emailAddress;
 	private String password;
@@ -113,6 +113,16 @@ public class PingpongPlayer implements Markeable {
 		}
 		Collections.sort(daysList);
 		return daysList;
+	}
+
+	public void addUnavailableDay(Date day) {
+		Date noonDate = new DateTime(day).withHourOfDay(12).toDate();
+		unavailableDays.add(noonDate);
+	}
+
+	public void removeUnavailableDay(Date day) {
+		Date noonDate = new DateTime(day).withHourOfDay(12).toDate();
+		unavailableDays.remove(noonDate);
 	}
 
 	public boolean isUnavailableOn(Date date) {
@@ -237,10 +247,14 @@ public class PingpongPlayer implements Markeable {
 
 	@Override
 	public String toString() {
+		return getFullMemberName();
+	}
+
+	public String getFullMemberName() {
 		String format = memberNo == null || memberNo == 0 ? "[%s] %s" : "[%s] %s (%s)";
 		return String.format(format, ranking, getFullName(), memberNo);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

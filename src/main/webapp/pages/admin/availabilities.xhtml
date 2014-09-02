@@ -6,8 +6,39 @@
 	<ui:composition template="../templates/admin.xhtml">
 		<ui:define name="subtitle">Beheer beschikbaarheden</ui:define>
 		<ui:define name="main">
-			<h:form>
-
+			<p:messages id="messages" autoUpdate="true"/>
+			<h:form id="player-selection-form">
+				<h:selectOneMenu value="#{availabilitiesBean.player}">
+					<f:selectItem itemLabel="Selecteer een speler" itemValue="#{null}"/>
+					<f:selectItems value="#{availabilitiesBean.players}" var="player" itemLabel="#{player.fullMemberName}" itemValue="#{player}"/>
+					<f:converter binding="#{playerBean}"/>
+					<p:ajax update=":unavailability-form :unavailability-table"/>
+				</h:selectOneMenu>
+			</h:form>
+			<h:form id="unavailability-form">
+				<h:panelGroup rendered="#{!empty availabilitiesBean.player}">
+					<p>
+						Duid een dag aan waarop de geselecteerde speler niet kan spelen en klik op Toevoegen.
+						Alle toekomstige dagen waarop je niet kan spelen worden hieronder ook opgelijst. Klik op
+						verwijderen om dagen uit deze lijst te wissen.
+					</p>
+					<p:calendar id="date" value="#{availabilitiesBean.unavailableDay}" required="true" mode="inline"/>
+					<p>
+						<p:commandButton value="Toevoegen" action="#{availabilitiesBean.addUnavailableDay}" update=":unavailability-table"/>
+					</p>
+				</h:panelGroup>
+			</h:form>
+			<h:form id="unavailability-table">
+				<p:dataTable value="#{availabilitiesBean.player.unavailableDaysList}" var="day" rendered="#{!empty availabilitiesBean.player}">
+					<p:column headerText="Onbeschikbare dagen vanaf vandaag">
+						<h:outputText value="#{day}">
+							<f:convertDateTime pattern="#{msg.date_format_unavailabilities}"/>
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<p:commandButton icon="ui-icon ui-icon-trash" value="Verwijderen" action="#{availabilitiesBean.deleteUnavailableDay(day)}" update="@form"/>
+					</p:column>
+				</p:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>
