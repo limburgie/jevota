@@ -13,7 +13,7 @@
 				<p:panelGrid columns="2">
 					<h:selectOneMenu value="#{roleBean.player}">
 						<f:selectItem itemLabel="" itemValue="#{null}"/>
-						<f:selectItems value="#{playerBean.activePlayers}" var="player" itemLabel="#{player.fullName}" itemValue="#{player}"/>
+						<f:selectItems value="#{playerBean.activePlayers}" var="player" itemLabel="#{player.fullMemberName}" itemValue="#{player}"/>
 						<f:converter binding="#{playerBean}"/>
 					</h:selectOneMenu>
 				

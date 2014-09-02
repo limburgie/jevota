@@ -64,15 +64,16 @@ public class ProfileBean implements Serializable {
 		PingpongPlayer player = loginBean.getPlayer();
 		player.getUnavailableDays().add(noonDate);
 		playerService.savePlayer(player);
+		loginBean.setPlayer(playerService.getPlayer(player.getId()));
 		unavailableDay = null;
 		FacesUtil.info("Onbeschikbare dag werd succesvol toegevoegd!");
 	}
 
 	public void deleteUnavailableDay(Date day) {
-		Date noonDate = new DateTime(day).withHourOfDay(12).toDate();
 		PingpongPlayer player = loginBean.getPlayer();
 		player.getUnavailableDays().remove(day);
 		playerService.savePlayer(player);
+		loginBean.setPlayer(playerService.getPlayer(player.getId()));
 		FacesUtil.info("Onbeschikbare dag werd succesvol verwijderd!");
 	}
 
