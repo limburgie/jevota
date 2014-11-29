@@ -1,67 +1,133 @@
 <f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panelGrid columns="2" columnClasses="bold,">
-		<h:outputText value="Voorzitter"/>
-		<h:panelGroup>
-			Ronny Nickmans<br/>
-			Pannestraat 135<br/>
-			3620 Lanaken<br/>
-			089/72.25.36
-		</h:panelGroup>
+	<p:panelGrid columnClasses="bold,bold,">
+		<p:row>
+			<p:column colspan="2">
+				<h3>Hoofdbestuur</h3>
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Voorzitter</p:column>
+			<p:column>
+				Nickmans Ronny<br/>
+				Pannestraat 135<br/>
+				3620 Lanaken<br/>
+				089/72.25.36
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Erevoorzitter</p:column>
+			<p:column>
+				Dreesen Guido
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Secretaris</p:column>
+			<p:column>
+				Nickmans Martijn<br/>
+				Pannestraat 135<br/>
+				3620 Lanaken<br/>
+				089/72.25.36
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Penningmeester</p:column>
+			<p:column>
+				Mooren Johan<br/>
+				Bremstraat 58<br/>
+				3620 Lanaken<br/>
+				0485/69.85.71
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Overige bestuursleden</p:column>
+			<p:column>
+				Dielemans Jeroen<br/>
+				Dreesen Mathie<br/>
+				Franssen Bart<br/>
+				Nijs Kristof<br/>
+				Van Someren Hanny
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column colspan="2">
+				<h3>Sportief</h3>
+			</p:column>
+		</p:row>
 		
-		<h:outputText value="Ondervoorzitter"/>
-		<h:panelGroup>
-			Jef Croux<br/>
-			089/71.20.57
-		</h:panelGroup>
-		
-		<h:outputText value="Secretaris"/>
-		<h:panelGroup>
-			Martijn Nickmans<br/>
-			Pannestraat 135<br/>
-			3620 Lanaken<br/>
-			089/72.25.36
-		</h:panelGroup>
-		
-		<h:outputText value="Penningmeester"/>
-		<h:panelGroup>
-			Johan Mooren<br/>
-			Bremstraat 58<br/>
-			3620 Lanaken<br/>
-			0485/69.85.71
-		</h:panelGroup>
-		
-		<h:outputText value="Bankrekening"/>
-		<h:outputText value="BE64 7353 5801 4052"/>
-		
-		<h:outputText value="Bestuursleden"/>
-		<h:panelGroup>
-			Kristof Nijs<br/>
-			Robin Vandecaetsbeek
-		</h:panelGroup>
-		
-		<h:outputText value="Sportcommissie"/>
-		<h:panelGroup>
-			Dieter Brasseur<br/>
-			Interclubcompetitie A t/m F: Mattie Dreesen (0476/78.90.78)<br/>
-			Interclubcompetitie G en H: Guido Dreesen (089/71.60.48)<br/>
-			Vrijetijd interclub: Hanny Vansomeren (089/71.73.31)<br/>
-			Trainers: Michaël Boelen, Bart Franssen, Jeroen Mertens
-		</h:panelGroup>
-		
-		<h:outputText value="50 jaar commissie"/>
-		<h:outputText value="Patrick Vansomeren"/>
-		
-		<h:outputText value="Bestuursleden VZW"/>
-		<h:panelGroup>
-			Voorzitter: Stefan Manteleers<br/>
-			Secretaris: Jeroen Dielemans<br/>
-			Penningmeester: Johan Mooren<br/>
-			Bestuursleden: Ronny Nickmans, Martijn Nickmans, Guido Dreesen, Jef Croux
-		</h:panelGroup>
-		
-		<h:outputText value="Redactie boekje"/>
-		<h:outputText value="Guido Dreesen"/>
+		<p:row>
+			<p:column styleClass="bold">Interclub competitie</p:column>
+			<p:column>Dreesen Mathie</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Interclub recreatie</p:column>
+			<p:column>Van Someren Hanny</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Trainers</p:column>
+			<p:column>
+				Beerts Vanja<br/>
+				Boelen Micha&#235;l<br/>
+				Franssen Bart
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column colspan="2">
+				<h3>Bestuursleden VZW</h3>
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Voorzitter</p:column>
+			<p:column>Manteleers Stefan</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Secretaris</p:column>
+			<p:column>Dielemans Jeroen</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Overige leden</p:column>
+			<p:column>
+				Croux Jozef<br/>
+				Dreesen Guido<br/>
+				Mooren Johan<br/>
+				Nickmans Martijn<br/>
+				Nickmans Ronny
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column colspan="2">
+				<h3>Feestcomit&#233;</h3>
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Voorzitter</p:column>
+			<p:column>Nickmans Martijn</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column styleClass="bold">Overige leden</p:column>
+			<p:column>
+				Appermans Annemie<br/>
+				Bollen Tanja<br/>
+				Caubergh Nadine<br/>
+				Mertens Jeroen<br/>
+				Van Someren Hanny
+			</p:column>
+		</p:row>
 	</p:panelGrid>
 </f:view>
