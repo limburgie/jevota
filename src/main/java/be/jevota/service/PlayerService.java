@@ -1,11 +1,11 @@
 package be.jevota.service;
 
-import java.util.List;
-
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.service.exception.InvalidEmailException;
 import be.jevota.service.exception.InvalidPasswordUpdateException;
 import be.jevota.service.exception.LoginException;
+
+import java.util.List;
 
 public interface PlayerService {
 
@@ -40,5 +40,7 @@ public interface PlayerService {
 	int generateAndEmailNewPasswords();
 
 	void generateAndEmailNewPassword(long id, int memberNo) throws InvalidEmailException;
+
+	int sendMailToAll(String subject, String body);
 	
 }

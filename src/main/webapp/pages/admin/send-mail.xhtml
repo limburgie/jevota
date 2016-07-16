@@ -12,11 +12,15 @@
 			<h:form>
 				<h:panelGroup layout="block" rendered="#{!sendEmailBean.sent}">
 					<p>
+						<p:outputLabel for="subject" value="Titel"/><br/>
+						<p:inputText id="subject" value="#{sendEmailBean.subject}" required="true"/>
+					</p>
+					<p>
 						<p:outputLabel for="body" value="Bericht"/><br/>
 						<p:editor id="body" value="#{sendEmailBean.body}" required="true" controls="bold italic bullets numbering image link unlink source"/>
 					</p>
 					<p>
-						<p:commandButton value="Versturen" action="#{sendEmailBean.send}"/>
+						<p:commandButton value="Versturen" action="#{sendEmailBean.send}" update="@form"/>
 					</p>
 				</h:panelGroup>
 			</h:form>

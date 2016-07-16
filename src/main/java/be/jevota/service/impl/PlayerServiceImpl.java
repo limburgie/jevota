@@ -216,4 +216,14 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 	}
 
+	public int sendMailToAll(String subject, String body) {
+		try {
+			List<PingpongPlayer> playersWithEmail = repository.getPlayersWithEmail();
+			mailService.sendEmail(playersWithEmail, subject, body, true);
+			return playersWithEmail.size();
+		} catch (InvalidEmailException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

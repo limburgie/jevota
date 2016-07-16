@@ -1,12 +1,11 @@
 package be.jevota.repository;
 
-import java.util.List;
-
+import be.jevota.domain.PingpongPlayer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import be.jevota.domain.PingpongPlayer;
+import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<PingpongPlayer, Long> {
 
@@ -26,4 +25,6 @@ public interface PlayerRepository extends JpaRepository<PingpongPlayer, Long> {
 	@Query("FROM PingpongPlayer WHERE emailAddress IS NOT NULL AND emailAddress <> '' AND (password='' OR password IS NULL)")
 	List<PingpongPlayer> getPlayersWithEmailWithoutPassword();
 
+	@Query("FROM PingpongPlayer WHERE emailAddress IS NOT NULL")
+	List<PingpongPlayer> getPlayersWithEmail();
 }
