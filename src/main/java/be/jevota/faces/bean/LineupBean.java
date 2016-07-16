@@ -17,9 +17,7 @@ import org.springframework.context.annotation.Scope;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Named @Scope("view")
 public class LineupBean implements Serializable {
@@ -38,6 +36,7 @@ public class LineupBean implements Serializable {
 	private Map<PingpongTeam, GameLineup> lineups;
 	private List<PingpongTeam> teams;
 	private List<PingpongPlayer> players;
+	private List<PingpongPlayer> allPlayers;
 	private List<PingpongPlayer> filteredPlayers;
 	private long playerId;
 	
@@ -63,16 +62,24 @@ public class LineupBean implements Serializable {
 	}
 
 	private GameLineup getLineupForTeam(PingpongTeam team) {
+		GameLineup lineup;
 		if(seasonWeekFilterBean.getFilter() != null) {
-			return lineupService.getOrCreateLineupForTeamInSeasonWeek(team, seasonWeekFilterBean.getFilter());
+			lineup = lineupService.getOrCreateLineupForTeamInSeasonWeek(team, seasonWeekFilterBean.getFilter());
 		} else {
-			return lineupService.getOrCreateLineupForTeamInCalendarWeek(team, calendarWeekFilterBean.getFilter());
+			lineup = lineupService.getOrCreateLineupForTeamInCalendarWeek(team, calendarWeekFilterBean.getFilter());
 		}
+		if (lineup != null && !recreation) {
+			for (PingpongPlayer player : lineup.getPlayerList()) {
+				player.setIndex(allPlayers.get(allPlayers.indexOf(player)).getIndex());
+			}
+		}
+		return lineup;
 	}
 
 	public List<PingpongPlayer> getPlayers() {
 		if(players == null) {
 			players = playerService.getPlayers(recreation);
+			allPlayers = new ArrayList<PingpongPlayer>(players);
 			for(GameLineup lineup: getLineups().values()) {
 				if(lineup != null) {
 					players.removeAll(lineup.getPlayers());

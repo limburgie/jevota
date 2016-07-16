@@ -31,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
 	@Inject private RoleService roleService;
 
 	public List<PingpongPlayer> getActivePlayers(boolean maleOnly) {
-		List<PingpongPlayer> players = null;
+		List<PingpongPlayer> players;
 		if (maleOnly) {
 			players = repository.findByActiveAndMaleOrderByRankingAscLastNameAsc(true, true);
 		} else {
@@ -45,10 +45,17 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	public List<PingpongPlayer> getPlayers(boolean recreation) {
+		List<PingpongPlayer> players;
 		if (recreation) {
-			return repository.findByActiveAndRecreationOrderByRankingAscLastNameAsc(true, true);
+			players = repository.findByActiveAndRecreationOrderByRankingAscLastNameAsc(true, true);
+		} else {
+			players = repository.findByActiveOrderByRankingAscLastNameAsc(true);
+			for (int i = 0; i < players.size(); i++) {
+				PingpongPlayer player = players.get(i);
+				player.setIndex(getIndex(players, player, i));
+			}
 		}
-		return repository.findByActiveOrderByRankingAscLastNameAsc(true);
+		return players;
 	}
 
 	private int getIndex(List<PingpongPlayer> players, PingpongPlayer player, int from) {

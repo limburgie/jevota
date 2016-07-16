@@ -29,7 +29,10 @@
 				<h:panelGrid id="games" columns="2" styleClass="x-columns" rendered="#{!empty gameFilterBean.activeFilter.filter}">
 					<p:dataTable id="players" value="#{lineupBean.players}" var="player" styleClass="draggable" filteredValue="#{lineupBean.filteredPlayers}" widgetVar="playerList">
 						<p:column headerText="Spelers" filterBy="#{player.fullName}" filterMatchMode="contains" >
-							<h:outputText styleClass="playerInfo" id="player" value="#{player.ranking} - #{player.shortName}" />
+							<h:panelGroup id="player">
+								<h:outputText styleClass="playerInfo" value="#{player.ranking} - #{player.index} - #{player.shortName}" rendered="#{!lineupBean.recreation}"/>
+								<h:outputText styleClass="playerInfo" value="#{player.ranking} - #{player.shortName}" rendered="#{lineupBean.recreation}"/>
+							</h:panelGroup>
 							<p:draggable for="player" revert="true" stack=".playerInfo" scope="dropZone"/>
 						</p:column>
 					</p:dataTable>
@@ -51,8 +54,10 @@
 									</h:panelGrid>
 									<p:dataTable id="lineupPlayers" rendered="#{!empty lineup.playerList}" value="#{lineup.playerList}" var="player" styleClass="noHeader grayTable">
 										<p:column>
+											<h:outputText value="#{player.ranking} - #{player.index} - #{player.shortName}" styleClass="#{player.isUnavailableOn(lineup.game.date)?'unavailable':''}"
+													title="#{player.isUnavailableOn(lineup.game.date)?'Speler is niet beschikbaar op deze dag':''}" rendered="#{!lineupBean.recreation}"/>
 											<h:outputText value="#{player.ranking} - #{player.shortName}" styleClass="#{player.isUnavailableOn(lineup.game.date)?'unavailable':''}"
-													title="#{player.isUnavailableOn(lineup.game.date)?'Speler is niet beschikbaar op deze dag':''}"/>
+													title="#{player.isUnavailableOn(lineup.game.date)?'Speler is niet beschikbaar op deze dag':''}" rendered="#{lineupBean.recreation}"/>
 										</p:column>
 										<p:column>
 											<p:commandLink value="X" action="#{lineupBean.removePlayerFromLineup(lineup.id)}" update="@form" onsuccess="playerList.clearFilters()">
