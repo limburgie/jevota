@@ -1,0 +1,29 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="../templates/admin.xhtml">
+		<ui:define name="subtitle">
+			Mail uitsturen naar alle leden
+		</ui:define>
+		<ui:define name="main">
+			<p:messages autoUpdate="true"/>
+			<h:form>
+				<h:panelGroup layout="block" rendered="#{!sendEmailBean.sent}">
+					<p>
+						<p:outputLabel for="subject" value="Titel"/><br/>
+						<p:inputText id="subject" value="#{sendEmailBean.subject}" required="true"/>
+					</p>
+					<p>
+						<p:outputLabel for="body" value="Bericht"/><br/>
+						<p:editor id="body" value="#{sendEmailBean.body}" required="true" controls="bold italic bullets numbering image link unlink source"/>
+					</p>
+					<p>
+						<p:commandButton value="Versturen" action="#{sendEmailBean.send}" update="@form"/>
+					</p>
+				</h:panelGroup>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</f:view>
