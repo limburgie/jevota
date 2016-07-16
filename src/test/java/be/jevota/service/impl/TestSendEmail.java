@@ -1,11 +1,11 @@
 package be.jevota.service.impl;
 
-import java.util.Collections;
-import java.util.Set;
-
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.service.exception.InvalidEmailException;
 import be.jevota.test.mother.PlayerMother;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class TestSendEmail {
 
@@ -17,7 +17,7 @@ public class TestSendEmail {
 		Set<PingpongPlayer> rec = Collections.singleton(peter);
 		Set<PingpongPlayer> cc = Collections.singleton(peter);
 		Set<PingpongPlayer> bcc = Collections.singleton(peter);
-		mailService.sendEmail(rec, cc, bcc, "Test from Java", "Body test", true);
+		mailService.sendEmail(null, rec, cc, bcc, "Test from Java", "Body test", true);
 	}
 
 }

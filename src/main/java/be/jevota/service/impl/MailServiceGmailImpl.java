@@ -1,29 +1,18 @@
 package be.jevota.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-
-import javax.inject.Named;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.service.MailService;
 import be.jevota.service.exception.InvalidEmailException;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
+import javax.inject.Named;
+import javax.mail.*;
+import javax.mail.Message.RecipientType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 @Named
 public class MailServiceGmailImpl implements MailService {
@@ -43,27 +32,31 @@ public class MailServiceGmailImpl implements MailService {
 
 	public void sendEmail(Collection<PingpongPlayer> recipients, String subject, String body, boolean jevotaCopy)
 			throws InvalidEmailException {
-		sendEmail(recipients, Collections.<PingpongPlayer> emptySet(), subject, body, jevotaCopy);
+		sendEmail(null, recipients, Collections.<PingpongPlayer> emptySet(), subject, body, jevotaCopy);
 	}
 
-	public void sendEmail(Collection<PingpongPlayer> recipients, Collection<PingpongPlayer> cc, String subject,
+	public void sendEmail(PingpongPlayer from, Collection<PingpongPlayer> recipients, Collection<PingpongPlayer> cc, String subject,
 			String body, boolean jevotaCopy) throws InvalidEmailException {
-		sendEmail(recipients, cc, Collections.<PingpongPlayer> emptySet(), subject, body, jevotaCopy);
+		sendEmail(from, recipients, cc, Collections.<PingpongPlayer> emptySet(), subject, body, jevotaCopy);
 	}
 
 	private InternetAddress[] getAddressesFromPlayers(Collection<PingpongPlayer> players) throws InvalidEmailException {
 		List<InternetAddress> result = new ArrayList<InternetAddress>();
 		for (PingpongPlayer player : players) {
-			if (StringUtils.isBlank(player.getEmailAddress())) {
-				throw new InvalidEmailException(player);
-			}
-			try {
-				result.add(new InternetAddress(player.getEmailAddress(), player.getFullName()));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			result.add(getAddressFromPlayer(player));
 		}
 		return result.toArray(new InternetAddress[result.size()]);
+	}
+
+	private InternetAddress getAddressFromPlayer(PingpongPlayer player) throws InvalidEmailException {
+		if (StringUtils.isBlank(player.getEmailAddress())) {
+			throw new InvalidEmailException(player);
+		}
+		try {
+			return new InternetAddress(player.getEmailAddress(), player.getFullName());
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	public void sendEmail(PingpongPlayer recipient, String subject, String body, boolean jevotaCopy)
@@ -71,7 +64,7 @@ public class MailServiceGmailImpl implements MailService {
 		sendEmail(Collections.singleton(recipient), subject, body, jevotaCopy);
 	}
 
-	public void sendEmail(Collection<PingpongPlayer> recipients, Collection<PingpongPlayer> cc,
+	public void sendEmail(PingpongPlayer from, Collection<PingpongPlayer> recipients, Collection<PingpongPlayer> cc,
 			Collection<PingpongPlayer> bcc, String subject, String body, boolean jevotaCopy)
 			throws InvalidEmailException {
 		Properties props = new Properties();
@@ -89,10 +82,16 @@ public class MailServiceGmailImpl implements MailService {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(FROM);
+			if (from != null) {
+				message.setReplyTo(getAddressesFromPlayers(Collections.singletonList(from)));
+			}
 			message.setRecipients(RecipientType.TO, getAddressesFromPlayers(recipients));
 			InternetAddress[] ccAddresses = getAddressesFromPlayers(cc);
 			if (jevotaCopy) {
 				ccAddresses = (InternetAddress[]) ArrayUtils.add(ccAddresses, new InternetAddress(JEVOTA_HOME_ADDRESS));
+			}
+			if (from != null) {
+				ccAddresses = (InternetAddress[]) ArrayUtils.add(ccAddresses, FROM);
 			}
 			message.setRecipients(RecipientType.CC, ccAddresses);
 			message.setRecipients(RecipientType.BCC, getAddressesFromPlayers(bcc));

@@ -1,17 +1,5 @@
 package be.jevota.faces.bean;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.primefaces.component.dnd.Droppable;
-import org.primefaces.event.DragDropEvent;
-import org.springframework.context.annotation.Scope;
-
 import be.jevota.domain.GameLineup;
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.domain.PingpongTeam;
@@ -22,6 +10,16 @@ import be.jevota.service.LineupService;
 import be.jevota.service.PlayerService;
 import be.jevota.service.TeamService;
 import be.jevota.service.exception.InvalidEmailException;
+import org.primefaces.component.dnd.Droppable;
+import org.primefaces.event.DragDropEvent;
+import org.springframework.context.annotation.Scope;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Named @Scope("view")
 public class LineupBean implements Serializable {
@@ -31,6 +29,7 @@ public class LineupBean implements Serializable {
 	@Inject private TeamService teamService;
 	@Inject private PlayerService playerService;
 	@Inject private LineupService lineupService;
+	@Inject private LoginBean loginBean;
 	
 	@Inject private SeasonWeekFilterBean seasonWeekFilterBean;
 	@Inject private CalendarWeekFilterBean calendarWeekFilterBean;
@@ -109,7 +108,7 @@ public class LineupBean implements Serializable {
 	
 	public void notifyPlayers(long lineupId) {
 		try {
-			lineupService.notifyPlayers(lineupId);
+			lineupService.notifyPlayers(loginBean.getPlayer(), lineupId);
 			FacesUtil.info("Spelers werden via mail verwittigd");			
 		} catch(InvalidEmailException e) {
 			FacesUtil.error(e.getPlayer().getFullName()+ " heeft geen geldig e-mailadres");

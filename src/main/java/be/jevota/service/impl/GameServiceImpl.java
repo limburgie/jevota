@@ -1,17 +1,5 @@
 package be.jevota.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.transaction.annotation.Transactional;
-
 import be.jevota.domain.PingpongGame;
 import be.jevota.domain.PingpongTeam;
 import be.jevota.domain.cal.CalendarWeek;
@@ -20,6 +8,16 @@ import be.jevota.domain.cal.SeasonYear;
 import be.jevota.repository.GameRepository;
 import be.jevota.service.GameService;
 import be.jevota.service.comparator.GameByTeamComparator;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Named
 public class GameServiceImpl implements GameService {
@@ -40,6 +38,7 @@ public class GameServiceImpl implements GameService {
 
 	@Transactional
 	public PingpongGame saveGame(PingpongGame game) {
+		game.setManual(true);
 		return gameRepo.save(game);
 	}
 
@@ -121,11 +120,14 @@ public class GameServiceImpl implements GameService {
 	public PingpongGame createOrUpdateGame(PingpongGame game) {
 		PingpongGame result = getSeasonGame(game.getSeasonYear(), game.getVttlId());
 		if (result == null) {
-			return saveGame(game);
+			return gameRepo.save(game);
 		}
-		result.setWeekNo(game.getWeekNo());
-		result.setDate(game.getDate());
-		return saveGame(result);
+		if (!result.isManual()) {
+			result.setWeekNo(game.getWeekNo());
+			result.setDate(game.getDate());
+			return gameRepo.save(result);
+		}
+		return result;
 	}
 
 	private PingpongGame getSeasonGame(SeasonYear year, String vttlId) {
@@ -135,11 +137,11 @@ public class GameServiceImpl implements GameService {
 	@Transactional
 	public void updateScore(SeasonYear year, String vttlId, int homeTeamPts, int outTeamPts, boolean forfait) {
 		PingpongGame game = getSeasonGame(year, vttlId);
-		if (!game.isRecreation()) {
+		if (!game.isRecreation() && !game.isManual()) {
 			game.setHomeTeamPts(homeTeamPts);
 			game.setOutTeamPts(outTeamPts);
 			game.setForfait(forfait);
-			saveGame(game);
+			gameRepo.save(game);
 		}
 	}
 
