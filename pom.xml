@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>be.limburgie</groupId>
 	<artifactId>jevota</artifactId>
-	<version>1.4.1</version>
+	<version>1.5.0</version>
 	<packaging>war</packaging>
 
 	<properties>
