@@ -13,6 +13,7 @@
 						<f:param name="redirect" value="/pages/admin/players.xhtml?faces-redirect=true"/>
 					</p:button>
 					<p:commandButton value="Nieuw wachtwoord genereren voor alle spelers zonder wachtwoord" action="#{playerBean.sendNewPasswordAll}" rendered="#{accountBean.admin}"/>
+					<p:button value="Mail uitsturen naar alle leden" outcome="/pages/admin/send-mail.xhtml"/>
 				</p>
 				<p:dataTable value="#{playerBean.allPlayers}" var="player" rows="15" paginator="true" filteredValue="#{playerBean.filteredPlayers}">
 					<p:column headerText="Lidnr." sortBy="#{player.memberNo}" filterBy="#{player.memberNo}" filterMatchMode="exact">
