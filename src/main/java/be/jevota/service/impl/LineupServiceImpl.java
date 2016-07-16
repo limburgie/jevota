@@ -1,22 +1,6 @@
 package be.jevota.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
-
-import be.jevota.domain.GameLineup;
-import be.jevota.domain.PingpongClub;
-import be.jevota.domain.PingpongGame;
-import be.jevota.domain.PingpongPlayer;
-import be.jevota.domain.PingpongTeam;
+import be.jevota.domain.*;
 import be.jevota.domain.cal.CalendarWeek;
 import be.jevota.domain.cal.SeasonWeek;
 import be.jevota.domain.type.RoleName;
@@ -26,6 +10,16 @@ import be.jevota.service.LineupService;
 import be.jevota.service.MailService;
 import be.jevota.service.RoleService;
 import be.jevota.service.exception.InvalidEmailException;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
 
 @Named
 public class LineupServiceImpl implements LineupService {
@@ -79,7 +73,7 @@ public class LineupServiceImpl implements LineupService {
 	}
 
 	@Transactional
-	public void notifyPlayers(long lineupId) throws InvalidEmailException {
+	public void notifyPlayers(PingpongPlayer from, long lineupId) throws InvalidEmailException {
 		GameLineup lineup = getLineup(lineupId);
 		PingpongGame game = lineup.getGame();
 		PingpongTeam team = lineup.getTeam();
@@ -94,7 +88,7 @@ public class LineupServiceImpl implements LineupService {
 				+ " gespeeld op de volgende locatie:\n\n" + homeClub.getName() + "\n"
 				+ homeClub.getAddress().getFullAddress("\n") + "\n\n"
 				+ "Graag een seintje als dit niet voor je lukt.\n\n" + "T.T.C. Jevota Lanaken";
-		mailService.sendEmail(players, cc, title, body, true);
+		mailService.sendEmail(from, players, cc, title, body, true);
 		updateLineupDate(lineup);
 	}
 

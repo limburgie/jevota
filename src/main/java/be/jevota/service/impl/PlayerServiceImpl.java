@@ -1,19 +1,5 @@
 package be.jevota.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
-
 import be.jevota.domain.Address;
 import be.jevota.domain.PingpongPlayer;
 import be.jevota.domain.type.FieldUpdate;
@@ -26,6 +12,14 @@ import be.jevota.service.RoleService;
 import be.jevota.service.exception.InvalidEmailException;
 import be.jevota.service.exception.InvalidPasswordUpdateException;
 import be.jevota.service.exception.LoginException;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.*;
 
 @Named
 public class PlayerServiceImpl implements PlayerService {
@@ -210,7 +204,7 @@ public class PlayerServiceImpl implements PlayerService {
 				body += "\n\n" + fieldUpdate;
 			}
 			body += "\n\nT.T.C. Jevota Lanaken";
-			mailService.sendEmail(to, cc, subject, body, true);
+			mailService.sendEmail(null, to, cc, subject, body, true);
 		}
 		return result;
 	}

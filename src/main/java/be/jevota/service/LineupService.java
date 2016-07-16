@@ -2,6 +2,7 @@ package be.jevota.service;
 
 import be.jevota.domain.GameLineup;
 import be.jevota.domain.PingpongGame;
+import be.jevota.domain.PingpongPlayer;
 import be.jevota.domain.PingpongTeam;
 import be.jevota.domain.cal.CalendarWeek;
 import be.jevota.domain.cal.SeasonWeek;
@@ -19,6 +20,6 @@ public interface LineupService {
 
 	GameLineup getLineup(long lineupId);
 	
-	void notifyPlayers(long lineupId) throws InvalidEmailException;
+	void notifyPlayers(PingpongPlayer from, long lineupId) throws InvalidEmailException;
 
 }

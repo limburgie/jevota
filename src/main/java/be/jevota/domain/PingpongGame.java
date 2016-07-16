@@ -1,15 +1,9 @@
 package be.jevota.domain;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import be.jevota.domain.cal.SeasonYear;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "date", "homeTeam_id", "outTeam_id" }) })
@@ -22,12 +16,21 @@ public class PingpongGame {
 	private int homeTeamPts;
 	private int outTeamPts;
 	private boolean forfait;
+	private boolean manual;
 
 	private String vttlId;
 
 	@OneToOne private PingpongTeam homeTeam;
 
 	@OneToOne private PingpongTeam outTeam;
+
+	public boolean isManual() {
+		return manual;
+	}
+
+	public void setManual(boolean manual) {
+		this.manual = manual;
+	}
 
 	public SeasonYear getSeasonYear() {
 		return new SeasonYear(date);
