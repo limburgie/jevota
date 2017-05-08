@@ -1,5 +1,21 @@
 package be.jevota.service.impl;
 
+import be.jevota.domain.PingpongClub;
+import be.jevota.domain.PingpongGame;
+import be.jevota.domain.PingpongTeam;
+import be.jevota.domain.cal.SeasonYear;
+import be.jevota.service.ClubService;
+import be.jevota.service.GameService;
+import be.jevota.service.TeamService;
+import be.jevota.service.VttlImporter;
+import be.jevota.service.exception.VttlImportException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -10,31 +26,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import be.jevota.domain.PingpongClub;
-import be.jevota.domain.PingpongGame;
-import be.jevota.domain.PingpongTeam;
-import be.jevota.domain.cal.SeasonYear;
-import be.jevota.service.ClubService;
-import be.jevota.service.GameService;
-import be.jevota.service.TeamService;
-import be.jevota.service.VttlImporter;
-import be.jevota.service.exception.VttlImportException;
-
 @Named
 public class VttlImporterImpl implements VttlImporter {
 
 	private static final String FORFAIT = "ff";
 	private static final String GEEN_UITSLAG = "gu";
 	private static final String LANAKEN = "Lanaken";
-	private static final String VRIJE_TIJD = "Vrije Tijd";
+	private static final String VRIJETIJD = "Vrijetijd";
 	private static final String VRIJ = "Vrij";
 
 	@Inject private ClubService clubService;
@@ -52,7 +50,7 @@ public class VttlImporterImpl implements VttlImporter {
 				for (int i = 2; i < rows.size(); i++) {
 					Element row = rows.get(i);
 					String division = row.select("td.DBTable_first").get(0).text();
-					boolean recreation = division.contains(VRIJE_TIJD);
+					boolean recreation = division.contains(VRIJETIJD);
 
 					Elements cols = row.select("td.DBTable");
 					String dateStr = cols.get(0).text();
