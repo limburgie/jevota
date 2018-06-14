@@ -200,6 +200,7 @@ h1 img {
 #wrapper {
 	background: white;
 	padding-bottom: 30px;
+	min-height: 650px;
 }
 
 #page {
@@ -490,16 +491,15 @@ select.ui-column-filter {
 	top: 35px;
 	left: -220px;
 	text-align: center;
-	border: 1px solid #457925;
 	font-family: Times, "Times New Roman", serif;
 	width: 180px;
-	background: #f1f0f0;
 	text-decoration: none !important;
 	color: #444;
 }
 
 .banner-vertical img {
 	width: 170px;
+	margin-bottom: 10px;
 }
 
 .banner-title {
