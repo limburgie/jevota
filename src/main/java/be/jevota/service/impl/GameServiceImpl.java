@@ -82,13 +82,15 @@ public class GameServiceImpl implements GameService {
 
 	public PingpongGame getGameForTeamInSeasonWeek(SeasonWeek week, PingpongTeam team) {
 		SeasonYear year = week.getSeasonYear();
-		return gameRepo.findByTeamInSeasonWeek(team, year.getStartDate(), year.getEndDate(), week.getWeekNo());
+		List<PingpongGame> games = gameRepo.findByTeamInSeasonWeek(team, year.getStartDate(), year.getEndDate(), week.getWeekNo());
+		return games.isEmpty() ? null : games.get(0);
 	}
 
 	@Override
 	public PingpongGame getGameForTeamInCalendarWeek(CalendarWeek week, PingpongTeam team) {
 		SeasonYear year = week.getSeasonYear();
-		return gameRepo.findByTeamInCalendarWeek(team, year.getStartDate(), year.getEndDate(), week.getWeekNo());
+		List<PingpongGame> games = gameRepo.findByTeamInCalendarWeek(team, year.getStartDate(), year.getEndDate(), week.getWeekNo());
+		return games.isEmpty() ? null : games.get(0);
 	}
 
 	public List<SeasonWeek> getSeasonWeeks(SeasonYear year) {

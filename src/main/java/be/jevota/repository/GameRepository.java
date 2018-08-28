@@ -24,7 +24,7 @@ public interface GameRepository extends JpaRepository<PingpongGame, Long> {
 			@Param("endDate") Date endDate);
 
 	@Query("FROM PingpongGame WHERE weekNo=:week AND (homeTeam=:team OR outTeam=:team) AND date BETWEEN :startDate AND :endDate")
-	PingpongGame findByTeamInSeasonWeek(@Param("team") PingpongTeam team, @Param("startDate") Date startDate,
+	List<PingpongGame> findByTeamInSeasonWeek(@Param("team") PingpongTeam team, @Param("startDate") Date startDate,
 			@Param("endDate") Date endDate, @Param("week") int week);
 
 	@Query("SELECT DISTINCT(weekNo) FROM PingpongGame WHERE date BETWEEN :startDate AND :endDate ORDER BY weekNo ASC")
@@ -41,7 +41,7 @@ public interface GameRepository extends JpaRepository<PingpongGame, Long> {
 			@Param("endDate") Date endDate);
 
 	@Query("FROM PingpongGame WHERE WEEK(date, 3)=:week AND (homeTeam=:team OR outTeam=:team) AND date BETWEEN :startDate AND :endDate")
-	PingpongGame findByTeamInCalendarWeek(@Param("team") PingpongTeam team, @Param("startDate") Date startDate,
+	List<PingpongGame> findByTeamInCalendarWeek(@Param("team") PingpongTeam team, @Param("startDate") Date startDate,
 			@Param("endDate") Date endDate, @Param("week") int week);
 
 	@Query("FROM PingpongGame WHERE homeTeam=:homeTeam AND outTeam=:outTeam AND date BETWEEN :startDate AND :endDate")
