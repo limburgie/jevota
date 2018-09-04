@@ -32,7 +32,7 @@ public class VttlImporterImpl implements VttlImporter {
 	private static final String FORFAIT = "ff";
 	private static final String GEEN_UITSLAG = "gu";
 	private static final String LANAKEN = "Lanaken";
-	private static final String VRIJETIJD = "Vrijetijd";
+	private static final String VRIJE_TIJD = "Vrije tijd";
 	private static final String VRIJ = "Vrij";
 
 	@Inject private ClubService clubService;
@@ -47,10 +47,10 @@ public class VttlImporterImpl implements VttlImporter {
 			try {
 				Document page = Jsoup.connect(url).get();
 				Elements rows = page.select("tr.DBTable");
-				for (int i = 2; i < rows.size(); i++) {
+				for (int i = 1; i < rows.size(); i++) {
 					Element row = rows.get(i);
 					String division = row.select("td.DBTable_first").get(0).text();
-					boolean recreation = division.contains(VRIJETIJD);
+					boolean recreation = division.contains(VRIJE_TIJD);
 
 					Elements cols = row.select("td.DBTable");
 					String dateStr = cols.get(0).text();
